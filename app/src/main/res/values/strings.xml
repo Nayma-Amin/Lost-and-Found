@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Lost and Found</string>
+    <string name="headline">Welcome to Lost and Found app....</string>
+    <string name="sign_up">New here? Please <font color='#129BBA'>Sign Up</font> to find lost belongings</string>
+    <string name="login">Already have an account? Please <font color='#129BBA'>Sign Up</font> to here</string>
+    <string name="guest">Continue as <font color='#129BBA'>Guest!</font></string>
+
 </resources>
