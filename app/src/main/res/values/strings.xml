@@ -2,7 +2,27 @@
     <string name="app_name">Lost and Found</string>
     <string name="headline">Welcome to Lost and Found app....</string>
     <string name="sign_up">New here? Please <font color='#129BBA'>Sign Up</font> to find lost belongings</string>
-    <string name="login">Already have an account? Please <font color='#129BBA'>Sign Up</font> to here</string>
+    <string name="login">Already have an account? Please <font color='#129BBA'>Login</font></string>
     <string name="guest">Continue as <font color='#129BBA'>Guest!</font></string>
+    <string name="txt1">The first step is Creating an account. Enter your Name, Email, Password and Contact number and click <b><font color='#129BBA'>SIGN UP.</font></b>\n\nYou can also continue as a guest to see our app.</string>
+    <string name="txt2">Now you have to Log in to your account.
+    Enter your Email, Password and click <b><font color='#129BBA'>LOGIN.</font></b>\n\nOnce your email and password is verified, you will be directed to our
+    <b><font color='#129BBA'>HOME PAGE.</font></b></string>
+
+    <string name="txt3">Now add information to your account, CLICK ON <b><font color='#129BBA'>PROFILE</font></b>  or  <b><font color='#129BBA'>EDIT PROFILE</font></b>
+         From the MENU\n\nEnter your information and click SAVE CHANGES.</string>
+
+    <string name="txt4"> If you forget your password, you can reset,
+        \nClick on <b><font color='#129BBA'>Forgot Password?</font></b> and confirm email.
+        \n\nYou will receive an email with a detailed instruction to reset your password.</string>
+
+    <string name="txt5"> Now you are all set to start your search.
+        \nYou can  <b><font color='#FFFFFF'>POST, CHECK REPORTS and INTERACT WITH POSTS.</font></b>
+        \n\nContact Us if any difficulty faced <b><font color='#129BBA'>here.</font></b> </string>
+
+    <string name="txt6"> Thank you so much for being patient and careful enough to check the guidelines.
+        \n\nDo <b><font color='#FFFFFF'>Share our ap</font></b>p with your family and friends.
+        \nFeel free to <b><font color='#FFFFFF'>Rate our app</font></b> </string>
+
 
 </resources>
