@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_color"
+    tools:context=".Login">
+
+  <ImageView
+      android:id="@+id/ivLogo"
+      android:layout_width="150dp"
+      android:layout_height="150dp"
+      android:src="@drawable/logo"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      android:layout_marginTop="32dp"
+      android:scaleType="fitCenter"/>
+
+
+
+  <EditText
+      android:id="@+id/etEmail"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:hint="Email"
+      android:textColorHint="#B0BEC5"
+      android:textColor="#FFFFFF"
+      android:inputType="textEmailAddress"
+      android:padding="12dp"
+      android:layout_marginTop="48dp"
+      android:layout_marginStart="32dp"
+      android:layout_marginEnd="32dp"
+      android:background="@drawable/rounded_editfield"
+      app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent" />
+
+  <EditText
+      android:id="@+id/etPassword"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:hint="Password"
+      android:textColorHint="#B0BEC5"
+      android:textColor="#FFFFFF"
+      android:inputType="textPassword"
+      android:padding="12dp"
+      android:layout_marginTop="16dp"
+      android:layout_marginStart="32dp"
+      android:layout_marginEnd="32dp"
+      android:background="@drawable/rounded_editfield"
+      app:layout_constraintTop_toBottomOf="@+id/etEmail"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      />
+
+  <TextView
+      android:id="@+id/tvForgetPassword"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Forget Password?"
+      android:textColor="#129BBA"
+      android:textSize="16sp"
+      android:layout_marginTop="8dp"
+      android:clickable="true"
+      android:focusable="true"
+      app:layout_constraintTop_toBottomOf="@+id/etPassword"
+      app:layout_constraintEnd_toEndOf="@+id/etPassword"
+       />
+
+
+  <Button
+      android:id="@+id/btnLogin"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="32dp"
+      android:layout_marginTop="80dp"
+      android:layout_marginEnd="32dp"
+      android:background="@drawable/buttonstyle"
+      android:padding="12dp"
+      android:text="LOG IN"
+      android:textColor="#FFFFFF"
+      android:textSize="18sp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/tvForgetPassword" />
+
+  <ProgressBar
+      android:id="@+id/pbIcon"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="16dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+      android:visibility="invisible"/>
+
+  <LinearLayout
+      android:id="@+id/loginGoogleContainer"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="72dp"
+      android:orientation="horizontal"
+      android:gravity="center"
+      app:layout_constraintTop_toBottomOf="@+id/btnLogin"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintEnd_toEndOf="parent">
+
+    <TextView
+        android:id="@+id/loginGoogle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
+        android:text="OR LOG IN WITH"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/ivGoogleLogin"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:src="@drawable/googlelogo"
+        android:background="@android:color/transparent"
+        android:contentDescription="Google logo" />
+  </LinearLayout>
+
+  <TextView
+      android:id="@+id/loginTextView"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:layout_marginTop="48dp"
+      android:text="@string/sign_up"
+      android:textColor="#A0A7AB"
+      android:textSize="14sp"
+      android:textStyle="bold"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.494"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@+id/loginGoogleContainer"
+      app:layout_constraintVertical_weight="1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
