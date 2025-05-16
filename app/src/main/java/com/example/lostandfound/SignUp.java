@@ -2,6 +2,7 @@ package com.example.lostandfound;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,17 +23,22 @@ import com.google.firebase.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class SignUp extends AppCompatActivity {
 
-    EditText etName, etEmail, etPassword, etPhone;
-    Button btnSignUp;
-    ProgressBar pbIcon;
+    private EditText etName, etEmail, etPassword, etPhone;
+    private Button btnSignUp;
+    private ProgressBar pbIcon;
 
-    TextView tvLAlreadyHaveAccount;
+    private TextView tvLAlreadyHaveAccount;
 
-    FirebaseAuth fbAuth;
+    private FirebaseAuth fbAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,61 +73,56 @@ public class SignUp extends AppCompatActivity {
         });
 
 
-        btnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = etName.getText().toString().trim();
-                String email = etEmail.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
-                String phone = etPhone.getText().toString().trim();
+        btnSignUp.setOnClickListener(v -> {
+            String emailText = etEmail.getText().toString().trim();
+            String passwordText = etPassword.getText().toString().trim();
 
-                if (name.isEmpty()) {
-                    etName.setError("Name is required");
-                    return;
-                }
+//TERMS AND CONDITION CHECKBOX
+            /*if (!termsCheckBox.isChecked()) {
+                Toast.makeText(SignUp.this, "You must accept the Terms and Conditions.", Toast.LENGTH_SHORT).show();
+                return;
+            }*/
 
-                if (email.isEmpty()) {
-                    etEmail.setError("Email is required");
-                    return;
-                }
-
-                if (password.isEmpty()) {
-                    etPassword.setError("Password is required");
-                    return;
-                }
-
-                if (password.length() < 6) {
-                    etPassword.setError("Password must be at least 6 characters");
-                    return;
-                }
-
-                if (phone.isEmpty()) {
-                    etPhone.setError("Phone number is required");
-                    return;
-                }
-
-                pbIcon.setVisibility(ProgressBar.VISIBLE);
-
-                fbAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        pbIcon.setVisibility(ProgressBar.GONE);
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(SignUp.this, "SignUp Successfully", Toast.LENGTH_SHORT).show();
-
-                            Intent i = new Intent(SignUp.this, Login.class);
-                            startActivity(i);
-
-                        } else {
-                            Toast.makeText(SignUp.this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
-
+            if (TextUtils.isEmpty(emailText) || TextUtils.isEmpty(passwordText)) {
+                Toast.makeText(SignUp.this, "Please fill out Email and Password.", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            if (passwordText.length() < 6) {
+                Toast.makeText(SignUp.this, "Password must be at least 6 characters long.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+           fbAuth.createUserWithEmailAndPassword(emailText, passwordText)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                FirebaseUser user = fbAuth.getCurrentUser();
+                                if (user != null) {
+                                    Toast.makeText(SignUp.this, "Signup is successful, " + user.getEmail(), Toast.LENGTH_SHORT).show();
+
+                                    FirebaseFirestore ub = FirebaseFirestore.getInstance();
+
+                                    Map<String, Object> userMap = new HashMap<>();
+                                    userMap.put("username", etName.getText().toString().trim());
+                                    userMap.put("email", etEmail.getText().toString().trim());
+                                    userMap.put("phone", etPhone.getText().toString().trim());
+                                    userMap.put("uid", user.getUid());
+
+                                    ub.collection("users").document(user.getUid()).set(userMap).addOnSuccessListener(aVoid -> {
+                                                Toast.makeText(SignUp.this, "User data saved", Toast.LENGTH_SHORT).show();
+                                                finish();
+                                            })
+                                            .addOnFailureListener(e -> {
+                                                Toast.makeText(SignUp.this, "Firestore error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                            });
+                                }
+                            } else {
+                                Toast.makeText(SignUp.this, "Signup failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
         });
 
     }

@@ -2,6 +2,7 @@ package com.example.lostandfound;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Objects;
 
 public class Login extends AppCompatActivity {
     EditText etEmail, etPassword;
@@ -40,56 +45,55 @@ public class Login extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
 
+       fbAuth = FirebaseAuth.getInstance();
+
         btnLogin = findViewById(R.id.btnLogin);
 
         pbIcon = findViewById(R.id.pbIcon);
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnLogin.setOnClickListener(v -> {
+            String email = etEmail.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
 
-                String email = etEmail.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+                Toast.makeText(Login.this, "Email or Password cannot be empty.", Toast.LENGTH_SHORT).show();
 
-
-                if (email.isEmpty()) {
-                    etEmail.setError("Email is required");
-                    return;
-                }
-
-                if (password.isEmpty()) {
-                    etPassword.setError("Password is required");
-                    return;
-                }
-
-                if (password.length() < 6) {
-                    etPassword.setError("Password must be at least 6 characters");
-                    return;
-                }
-
-
-                pbIcon.setVisibility(ProgressBar.VISIBLE);
-
-                fbAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-
-                        pbIcon.setVisibility(ProgressBar.GONE);
-
-                        if (task.isSuccessful()) {
-                            Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-
-                            Intent i = new Intent(Login.this, ProfileActivity.class);
-                            startActivity(i);
-
-                        } else {
-                            Toast.makeText(Login.this, "Login Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
+            } else {
+                loginUser(email, password);
             }
         });
 
+            }
+    private void loginUser(String email, String password) {
+        fbAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(Login.this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = fbAuth.getCurrentUser();
+                        if (user != null) {
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            String userId = user.getUid();
+
+                            db.collection("users").document(userId).get()
+                                    .addOnSuccessListener(documentSnapshot -> {
+                                        if (documentSnapshot.exists()) {
+                                            String username = documentSnapshot.getString("username");
+
+                                            Toast.makeText(Login.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(Login.this, ProfileActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        } else {
+                                            Toast.makeText(Login.this, "User profile not found in Firestore.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(Login.this, "Firestore error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    } else {
+                        Toast.makeText(Login.this, "Login failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
     }
-}
