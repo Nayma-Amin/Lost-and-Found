@@ -49,7 +49,7 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp">
+            android:paddingHorizontal="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,6 +145,69 @@
                     android:textSize="24dp"
                     android:textStyle="bold"
                     android:textColor="#FFE206"/>
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Your name"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/vollkorn"
+                    android:background="@drawable/rounded_ll"
+                    android:paddingLeft="10dp"
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Your number: +880"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/vollkorn"
+                    android:background="@drawable/rounded_ll"
+                    android:paddingLeft="10dp"
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Your email"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/vollkorn"
+                    android:background="@drawable/rounded_ll"
+                    android:paddingLeft="10dp"
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Subject"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/vollkorn"
+                    android:background="@drawable/rounded_ll"
+                    android:paddingLeft="10dp"
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:hint="Message"
+                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/vollkorn"
+                    android:background="@drawable/rounded_ll"
+                    android:paddingLeft="10dp"
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
+                <Button
+                    android:layout_width="100dp"
+                    android:layout_height="40dp"
+                    android:text="Send"
+                    android:fontFamily="@font/vollkorn"
+                    android:layout_marginVertical="15dp"
+                    android:background="@drawable/gradient_button"/>
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
