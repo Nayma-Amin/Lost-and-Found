@@ -89,7 +89,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@drawable/background_color">
+        android:background="@android:color/transparent"
+        android:backgroundTint="@drawable/background_color">
 
         <LinearLayout
             android:layout_width="match_parent"

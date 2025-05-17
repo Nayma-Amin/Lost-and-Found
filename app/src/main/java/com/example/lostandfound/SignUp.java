@@ -59,7 +59,6 @@ public class SignUp extends AppCompatActivity {
         btnSignUp = findViewById(R.id.btnSignUp);
 
         tvLAlreadyHaveAccount = findViewById(R.id.tvLAlreadyHaveAccount);
-        pbIcon = findViewById(R.id.pbIcon);
 
         fbAuth = FirebaseAuth.getInstance();
 
@@ -71,7 +70,7 @@ public class SignUp extends AppCompatActivity {
 
 
         tvLAlreadyHaveAccount.setOnClickListener(v -> {
-            Intent intent = new Intent(SignUp.this, Login.class); // Signup is your signup activity class
+            Intent intent = new Intent(SignUp.this, Login.class);
             startActivity(intent);
         });
 
@@ -96,7 +95,6 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
-            pbIcon.setVisibility(View.VISIBLE);
 
            fbAuth.createUserWithEmailAndPassword(emailText, passwordText)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

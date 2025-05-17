@@ -140,15 +140,18 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginTop="70dp"
+        android:fontFamily="@font/vollkorn"
         android:text="Already have an account? Please "
         android:textColor="#A0A7AB"
-        android:fontFamily="@font/vollkorn"
         android:textSize="14sp"
         android:textStyle="bold"
+
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.384"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSignUp"
         app:layout_constraintVertical_weight="1" />
+
     <TextView
         android:id="@+id/tvLAlreadyHaveAccount"
         android:layout_width="wrap_content"
