@@ -39,13 +39,16 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity_splash_screen"
+            android:name=".SplashActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="false"/>
         <activity
             android:name=".ProfileActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".CategoryClick"
             android:exported="false"/>
     </application>
 

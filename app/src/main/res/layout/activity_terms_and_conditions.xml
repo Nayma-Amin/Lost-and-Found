@@ -28,6 +28,7 @@
         android:layout_gravity="center"
         android:src="@drawable/button"
         android:paddingHorizontal="10dp"
+        android:background="@null"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/greeting"
@@ -40,6 +41,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
         android:text="Hello, 👋"
+        android:fontFamily="@font/vollkorn"
         android:textColor="#FFFFFF"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -51,6 +53,7 @@
     <TextView
         android:id="@+id/intro"
         android:layout_width="0dp"
+        android:fontFamily="@font/vollkorn"
         android:layout_height="wrap_content"
         android:text="Welcome to Lost and Found app. By using our app, you agree to these Terms and Conditions. Please read them carefully."
         android:textColor="#129BBA"
@@ -82,6 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Terms and Conditions"
+                android:fontFamily="@font/vollkorn"
                 android:textSize="20sp"
                 android:textColor="#FFFFFF"
                 android:textStyle="bold"
@@ -90,6 +94,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="🕒 Last updated: 5 March 2025"
                 android:textColor="#129BBA"
                 android:textSize="13sp"
@@ -99,6 +104,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="1. Eligibility"
+                android:fontFamily="@font/vollkorn"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -106,6 +112,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="You must be 13 years or older to use this app.\nBy using the app, you confirm that you meet this requirement.\n\n"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -113,6 +120,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="2. User Responsibilities"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
@@ -121,6 +129,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="Provide accurate details for lost or found items.\nDo not post inappropriate, misleading, or offensive content. Do not impersonate another person or entity.\n\n"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -128,6 +137,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="3. Item Ownership and Return"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
@@ -136,6 +146,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="Users are responsible for verifying the ownership of items before returning them. The platform does not guarantee item recovery or authenticity of any claim.\n\n"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -143,6 +154,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="4. Prohibited Uses"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
@@ -151,6 +163,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="Prohibited Uses\nIllegal, fraudulent, or harmful activities\nHarassment or impersonation\nUploading malicious software or links\n\n"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -159,6 +172,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="5. Content Rights"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
@@ -167,6 +181,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="By posting content (text/images), you grant us the right to display it within the app. You retain ownership of your content.\n\n"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
@@ -174,6 +189,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="6. Privacy"
                 android:textStyle="bold"
                 android:textColor="#FFFFFF"
@@ -182,6 +198,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/vollkorn"
                 android:text="Please refer to our Privacy Policy to understand how we collect and use data."
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
