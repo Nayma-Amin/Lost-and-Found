@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/category"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -8,39 +9,48 @@
 
 
     <LinearLayout
+        android:id="@+id/headerLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:orientation="horizontal"
-        android:gravity="center_vertical"
         android:background="#D9D9D9"
-        android:padding="16dp">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Menu Icon -->
-        <ImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+        <ImageButton
+            android:id="@+id/menuOption"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
             android:src="@drawable/button"
-            android:contentDescription="Menu" />
+            android:paddingHorizontal="10dp"
+            android:contentDescription="Menu Options"/>
 
-        <!-- Title -->
         <TextView
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="CATEGORIES"
-            android:textColor="#1E82A1"
-            android:gravity="center"
+            android:fontFamily="@font/vollkorn"
+            android:layout_gravity="center"
+            android:textColor="#0371AC"
+            android:textSize="22sp"
             android:textStyle="bold"
-            android:textSize="20sp"
-            android:fontFamily="@font/vollkorn" />
+            android:textAlignment="center"
+            android:gravity="center"/>
 
-        <!-- Spacer or Icon -->
-        <View
-            android:layout_width="48dp"
-            android:layout_height="48dp" />
+        <ImageButton
+            android:id="@+id/btnMore"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_more_vert"
+            android:contentDescription="More options"/>
+
     </LinearLayout>
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -97,7 +107,6 @@
                 android:background="#D9D9D9"
                 android:columnCount="4"
                 android:padding="16dp"
-                android:visibility="gone"
                 android:rowCount="8"
                 android:useDefaultMargins="true">
 
@@ -816,6 +825,7 @@
                 android:columnCount="4"
                 android:padding="16dp"
                 android:rowCount="8"
+                android:visibility="gone"
                 android:useDefaultMargins="true">
 
                 <LinearLayout
