@@ -290,14 +290,15 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/forgotButton"
                     android:layout_width="300dp"
                     android:layout_height="50dp"
                     android:text="Forget Password?"
                     android:paddingLeft="10dp"
                     android:layout_marginTop="15dp"
                     android:layout_gravity="center"
-                    android:textSize="20dp"
+                    android:textSize="12dp"
                     android:textAlignment="center"
                     android:fontFamily="@font/vollkorn"
                     android:background="@drawable/rounded_ll"/>
