@@ -38,15 +38,15 @@
             android:textAlignment="center"
             android:gravity="center"/>
 
-        <Button
-            android:id="@+id/btnLogout"
+        <ImageButton
+            android:id="@+id/btnMore"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
-            android:backgroundTint="#2F6D80"
-            android:text="Logout"
             android:layout_gravity="center"
-            android:onClick="logout"/>
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_more_vert"
+            android:contentDescription="More options"/>
 
     </LinearLayout>
 
@@ -184,6 +184,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="All"
+                    android:fontFamily="@font/vollkorn"
                     android:backgroundTint="#1E82A1"
                     android:textColor="#FFFFFF"
                     style="@style/Widget.MaterialComponents.Button.TextButton" />
@@ -194,6 +195,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Lost"
+                    android:fontFamily="@font/vollkorn"
                     android:backgroundTint="#d9d9d9"
                     android:textColor="#000000"
                     style="@style/Widget.MaterialComponents.Button.TextButton"/>
@@ -204,6 +206,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Found"
+                    android:fontFamily="@font/vollkorn"
                     android:backgroundTint="#d9d9d9"
                     android:textColor="#000000"
                     style="@style/Widget.MaterialComponents.Button.TextButton"/>
