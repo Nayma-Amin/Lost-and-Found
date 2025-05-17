@@ -34,7 +34,7 @@
         app:layout_constraintTop_toBottomOf="@id/logoImage" />
 
     <Button
-        android:id="@+id/signUpBtn"
+        android:id="@+id/btnSignUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
@@ -49,7 +49,7 @@
         app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
     <Button
-        android:id="@+id/loginBtn"
+        android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
@@ -61,7 +61,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/signUpBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
 
     <Button
         android:id="@+id/guestBtn"
@@ -76,14 +76,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginBtn" />
+        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <TextView
         android:id="@+id/termsText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Terms and Conditions"
-        android:textColor="#FFFFFF"
+        android:textColor="#129BBA"
         android:textStyle="bold"
         android:textSize="16sp"
         android:clickable="true"
@@ -101,7 +101,7 @@
         android:gravity="center"
         android:paddingHorizontal="20dp"
         android:text="Please read and agree to the terms and condition before moving forward!"
-        android:textColor="#129BBA"
+        android:textColor="#FFFFFF"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

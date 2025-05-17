@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import java.util.Map;
 public class SignUp extends AppCompatActivity {
 
     private EditText etName, etEmail, etPassword, etPhone;
+
+    CheckBox cbTerms;
     private Button btnSignUp;
     private ProgressBar pbIcon;
 
@@ -51,6 +54,8 @@ public class SignUp extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
         etPhone = findViewById(R.id.etPhone);
 
+        cbTerms = findViewById(R.id.cbTerms);
+
         btnSignUp = findViewById(R.id.btnSignUp);
 
         tvLAlreadyHaveAccount = findViewById(R.id.tvLAlreadyHaveAccount);
@@ -59,29 +64,27 @@ public class SignUp extends AppCompatActivity {
         fbAuth = FirebaseAuth.getInstance();
 
 
-        if(fbAuth.getCurrentUser() != null){
-            Intent i = new Intent(this, Login.class);
-            startActivity(i);
-        }
+//        if(fbAuth.getCurrentUser() != null){
+//            Intent i = new Intent(this, Login.class);
+//            startActivity(i);
+//        }
 
-        tvLAlreadyHaveAccount.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(SignUp.this, Login.class);
-                startActivity(i);
-            }
+
+        tvLAlreadyHaveAccount.setOnClickListener(v -> {
+            Intent intent = new Intent(SignUp.this, Login.class); // Signup is your signup activity class
+            startActivity(intent);
         });
 
 
         btnSignUp.setOnClickListener(v -> {
+
             String emailText = etEmail.getText().toString().trim();
             String passwordText = etPassword.getText().toString().trim();
 
-//TERMS AND CONDITION CHECKBOX
-            /*if (!termsCheckBox.isChecked()) {
+            if (!cbTerms.isChecked()) {
                 Toast.makeText(SignUp.this, "You must accept the Terms and Conditions.", Toast.LENGTH_SHORT).show();
                 return;
-            }*/
+            }
 
             if (TextUtils.isEmpty(emailText) || TextUtils.isEmpty(passwordText)) {
                 Toast.makeText(SignUp.this, "Please fill out Email and Password.", Toast.LENGTH_SHORT).show();
@@ -93,10 +96,13 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
+            pbIcon.setVisibility(View.VISIBLE);
+
            fbAuth.createUserWithEmailAndPassword(emailText, passwordText)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            pbIcon.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 FirebaseUser user = fbAuth.getCurrentUser();
                                 if (user != null) {

@@ -51,7 +51,10 @@ public class Login extends AppCompatActivity {
 
         pbIcon = findViewById(R.id.pbIcon);
 
+        tvNewHere = findViewById(R.id.loginTextView);
+
         btnLogin.setOnClickListener(v -> {
+
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
 
@@ -59,14 +62,23 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(Login.this, "Email or Password cannot be empty.", Toast.LENGTH_SHORT).show();
 
             } else {
+                pbIcon.setVisibility(View.VISIBLE);
                 loginUser(email, password);
             }
         });
 
-            }
+        tvNewHere.setOnClickListener(v -> {
+            Intent intent = new Intent(Login.this, SignUp.class);
+            startActivity(intent);
+        });
+
+    }
+
+
     private void loginUser(String email, String password) {
         fbAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Login.this, task -> {
+                    pbIcon.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
                         FirebaseUser user = fbAuth.getCurrentUser();
                         if (user != null) {
