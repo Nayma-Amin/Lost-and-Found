@@ -51,4 +51,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-base:17.6.0")
     implementation("com.google.gms:google-services:4.3.15")
     implementation("androidx.appcompat:appcompat:1.4.0")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+
 }
