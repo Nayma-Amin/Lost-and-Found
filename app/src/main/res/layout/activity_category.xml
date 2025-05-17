@@ -144,7 +144,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Truck">
+                    android:tag="Truck"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -169,7 +171,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Bike">
+                    android:tag="Bike"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -194,7 +198,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Books">
+                    android:tag="Books"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -219,7 +225,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Cycle">
+                    android:tag="Cycle"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -244,7 +252,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Camera">
+                    android:tag="Camera"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -269,7 +279,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Earphone">
+                    android:tag="Earphone"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -294,7 +306,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Charger">
+                    android:tag="Charger"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -319,7 +333,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Mobile">
+                    android:tag="Mobile"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -344,7 +360,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Laptop">
+                    android:tag="Laptop"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -369,7 +387,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Car">
+                    android:tag="Car"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -394,7 +414,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Watch">
+                    android:tag="Watch"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -419,7 +441,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Purse">
+                    android:tag="Purse"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -444,7 +468,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Shoe">
+                    android:tag="Shoe"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -469,7 +495,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="School Bag">
+                    android:tag="School Bag"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -494,7 +522,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="File">
+                    android:tag="File"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -519,7 +549,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Key">
+                    android:tag="Key"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -544,7 +576,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Gloves">
+                    android:tag="Gloves"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -569,7 +603,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Certificates">
+                    android:tag="Certificates"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -594,7 +630,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Glasses">
+                    android:tag="Glasses"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -619,7 +657,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Bag">
+                    android:tag="Bag"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -644,7 +684,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Bank Cards">
+                    android:tag="Bank Cards"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -669,7 +711,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Jewellery">
+                    android:tag="Jewellery"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -694,7 +738,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Umbrella">
+                    android:tag="Umbrella"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -719,7 +765,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="ID Cards">
+                    android:tag="ID Cards"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -744,7 +792,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Clothes">
+                    android:tag="Clothes"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -792,14 +842,16 @@
                     android:layout_height="wrap_content"
                     android:layout_columnWeight="1"
                     android:layout_margin="8dp"
+                    android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:layout_gravity="center_horizontal"
-                    android:tag="Wallet">
+                    android:tag="Wallet"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/wallet"/>
+                        android:src="@drawable/wallet" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -809,7 +861,7 @@
                         android:text="Wallet"
                         android:textColor="#006D8F"
                         android:textSize="15sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
             </GridLayout>
@@ -943,7 +995,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Elders">
+                    android:tag="Elders"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -968,7 +1022,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Special">
+                    android:tag="Special"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -1127,7 +1183,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Fish">
+                    android:tag="Fish"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"
@@ -1179,7 +1237,9 @@
                     android:layout_margin="8dp"
                     android:gravity="center_horizontal"
                     android:orientation="vertical"
-                    android:tag="Insects">
+                    android:tag="Insects"
+                    android:clickable="true"
+                    android:onClick="onCategoryClick">
 
                     <ImageView
                         android:layout_width="48dp"

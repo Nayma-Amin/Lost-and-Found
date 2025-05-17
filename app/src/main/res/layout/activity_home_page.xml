@@ -27,6 +27,7 @@
         android:layout_marginTop="48dp"
         android:text="Welcome to Lost and Found app...."
         android:textColor="#FFFFFF"
+        android:fontFamily="@font/vollkorn"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,12 +35,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logoImage" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnSignUp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
-        android:backgroundTint="#FFFFFF"
+        android:background="@drawable/rounded_ll"
+        android:fontFamily="@font/vollkorn"
         android:text="@string/sign_up"
         android:textColor="#000000"
         android:textStyle="bold"
@@ -49,12 +51,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/welcomeText" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#FFFFFF"
+        android:fontFamily="@font/vollkorn"
+        android:background="@drawable/rounded_ll"
         android:text="@string/login"
         android:textColor="#000000"
         android:textSize="13sp"
@@ -64,12 +67,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnSignUp" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/guestBtn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#FFFFFF"
+        android:background="@drawable/rounded_ll"
+        android:fontFamily="@font/vollkorn"
         android:text="@string/guest"
         android:textColor="#000000"
         android:textSize="12sp"
@@ -84,6 +88,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Terms and Conditions"
+        android:fontFamily="@font/vollkorn"
         android:textColor="#129BBA"
         android:textStyle="bold"
         android:textSize="16sp"
@@ -101,6 +106,7 @@
         android:layout_marginBottom="76dp"
         android:gravity="center"
         android:paddingHorizontal="20dp"
+        android:fontFamily="@font/vollkorn"
         android:text="Please read and agree to the terms and condition before moving forward!"
         android:textColor="#FFFFFF"
         android:textSize="14sp"

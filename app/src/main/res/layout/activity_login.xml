@@ -74,14 +74,14 @@
        />
 
 
-  <Button
+  <androidx.appcompat.widget.AppCompatButton
       android:id="@+id/btnLogin"
       android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:layout_marginStart="32dp"
       android:layout_marginTop="80dp"
       android:layout_marginEnd="32dp"
-      android:background="@drawable/buttonstyle"
+      android:background="@drawable/gradient_button"
       android:padding="12dp"
       android:text="LOG IN"
       android:textColor="#FFFFFF"
