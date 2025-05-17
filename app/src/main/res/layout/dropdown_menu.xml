@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content"
+    android:background="#548288"
+    android:padding="16dp"
+    android:layout_gravity="start"
+    android:elevation="8dp"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/headerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Thanks for choosing us...!"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/vollkorn" />
+        <TextView
+            android:id="@+id/home_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="Home"
+            android:backgroundTint="@color/white"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/edit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="Edit Profile"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:backgroundTint="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/terms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="Terms and Conditions"
+            android:textColor="#000000"
+            android:backgroundTint="@color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/how_to_use"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="How to use our App?"
+            android:textColor="#000000"
+            android:backgroundTint="@color/white"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/about_us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="About Us"
+            android:backgroundTint="@color/white"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/rate_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="Rate our App"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:backgroundTint="@color/white"
+            android:textSize="16sp"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/share_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="Share our App"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/delete_account"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="Delete Account"
+            android:textColor="#FF0000"
+            android:textStyle="bold"
+            android:backgroundTint="@color/white"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start" />
+    </LinearLayout>
+</ScrollView>
