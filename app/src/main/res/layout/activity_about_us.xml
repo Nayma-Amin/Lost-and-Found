@@ -108,6 +108,7 @@
                             android:layout_height="wrap_content"
                             android:text="Nayma Amin Nishy"
                             android:textColor="#fff"
+                            android:gravity="center"
                             android:fontFamily="@font/vollkorn"/>
                     </LinearLayout>
                     <LinearLayout
@@ -126,6 +127,7 @@
                             android:layout_height="wrap_content"
                             android:text="Md. Asifuzzaman"
                             android:textColor="#fff"
+                            android:gravity="center"
                             android:fontFamily="@font/vollkorn"/>
                     </LinearLayout>
                     <LinearLayout
@@ -144,6 +146,7 @@
                             android:layout_height="wrap_content"
                             android:text="Tasnuva Islam mila"
                             android:textColor="#fff"
+                            android:gravity="center"
                             android:fontFamily="@font/vollkorn"/>
                     </LinearLayout>
                 </LinearLayout>
