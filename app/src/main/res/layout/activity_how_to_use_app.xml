@@ -44,6 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:layout_weight="1"
+            android:fontFamily="@font/vollkorn"
             android:text="Confused about how to use our app?\nLet us help you with a step by step guideline."
             android:textColor="@android:color/white"
             android:textSize="16sp"
