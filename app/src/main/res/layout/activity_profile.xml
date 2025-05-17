@@ -31,6 +31,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Profile"
+            android:layout_gravity="center"
             android:textColor="#0371AC"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -44,6 +45,7 @@
             android:layout_marginHorizontal="10dp"
             android:backgroundTint="#2F6D80"
             android:text="Logout"
+            android:layout_gravity="center"
             android:onClick="logout"/>
 
     </LinearLayout>
@@ -64,30 +66,24 @@
             android:background="@drawable/rounded_ll">
 
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="60dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
                 <ImageView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/profile"/>
+                    android:layout_weight="1"
+                    android:src="@drawable/profile" />
 
-                <Button
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:padding="10px"
-                    android:backgroundTint="@drawable/gradient_button"
-                    android:text="Edit"
-                    android:textSize="10sp"
-                    android:textAlignment="center"
-                    android:textColor="#FFFFFF"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"/>
+                    android:layout_weight="1"
+                    android:src="@drawable/btn_edit_profile" />
 
             </LinearLayout>
 
@@ -152,9 +148,9 @@
 
                     <ImageView
                         android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:src="@drawable/map_pin"
-                        android:layout_margin="5dp"/>
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/map_pin" />
 
                     <TextView
                         android:id="@+id/locationEditText"
@@ -179,6 +175,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="#d9d9d9"
+                android:padding="2dp"
                 android:layout_marginBottom="10dp">
 
                 <Button
@@ -214,135 +211,22 @@
             </LinearLayout>
 
             <!-- Post Container -->
-            <LinearLayout
-                android:id="@+id/postContainer"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp"
-                android:layout_margin="10dp"
-                android:background="#FFFFFF"
-                android:layout_marginBottom="10dp"
-                android:elevation="4dp"
-                android:layout_gravity="center">
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:fillViewport="true"
+                android:background="#D9D9D9">
 
                 <LinearLayout
+                    android:id="@+id/request_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:src="@drawable/sample_image"
-                        android:layout_gravity="center"/>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:layout_marginStart="10dp">
-
-                        <TextView
-                            android:id="@+id/postTitle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Leather wallet"
-                            android:textStyle="bold"
-                            android:textSize="16sp"/>
-
-                        <TextView
-                            android:id="@+id/postDescription"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Brown leather wallet lost near Aftabnagar gate. Contact me if you found it."
-                            android:textSize="14sp"/>
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="5dp">
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/calendar"
-                                android:layout_marginEnd="4dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="17 April"
-                                android:textSize="12sp"/>
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/clock"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="4dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="07:55 am"
-                                android:textSize="12sp"/>
-
-                            <ImageView
-                                android:layout_width="16dp"
-                                android:layout_height="16dp"
-                                android:src="@drawable/map_pin"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="4dp"/>
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Aftabnagar"
-                                android:textSize="12sp"/>
-                        </LinearLayout>
-
-                    </LinearLayout>
+                    android:orientation="vertical"
+                    android:padding="8dp">
 
                 </LinearLayout>
-
-                <!-- Action Buttons -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:gravity="center">
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Edit post"
-                        android:backgroundTint="#2F6D80"
-                        android:textColor="#FFFFFF"
-                        android:layout_marginEnd="8dp"/>
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Delete post"
-                        android:backgroundTint="#D32F2F"
-                        android:textColor="#FFFFFF"
-                        android:layout_marginEnd="8dp"/>
-
-                    <Button
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mark found"
-                        android:backgroundTint="#1E82A1"
-                        android:textColor="#FFFFFF"/>
-
-                </LinearLayout>
-
-            </LinearLayout>
+            </ScrollView>
         </LinearLayout>
     </LinearLayout>
 
