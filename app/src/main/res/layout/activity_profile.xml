@@ -73,11 +73,11 @@
                 android:orientation="vertical">
 
                 <ImageView
+                    android:id="@+id/image"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:src="@drawable/profile" />
+                    android:layout_weight="1" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/editButton"

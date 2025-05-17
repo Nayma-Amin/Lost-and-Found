@@ -30,6 +30,9 @@
             android:name=".Login"
             android:exported="false" />
         <activity
+            android:name=".EditProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignUp"
             android:exported="false"/>
         <activity
