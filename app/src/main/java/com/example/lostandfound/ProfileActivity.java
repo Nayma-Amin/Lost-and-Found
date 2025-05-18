@@ -2,18 +2,23 @@ package com.example.lostandfound;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,7 +42,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView nameTextView, emailTextView, phoneTextView, locationTextView, noPostText;
     private AppCompatButton editButton;
     private ImageView profileImageView;
-    private ImageButton btnMore;
+    private ImageButton menuIcon;
     private LinearLayout requestContainer;
     private Button tabAll, tabLost, tabFound;
     private String selectedTab = "all";
@@ -57,7 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         locationTextView = findViewById(R.id.locationEditText);
         profileImageView = findViewById(R.id.image);
         editButton = findViewById(R.id.editButton);
-        btnMore = findViewById(R.id.btnMore);
+        menuIcon = findViewById(R.id.menu_icon);
         noPostText = findViewById(R.id.noPostText);
         requestContainer = findViewById(R.id.request_container);
         tabAll = findViewById(R.id.tabAll);
@@ -68,38 +73,83 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
         });
 
-        btnMore.setOnClickListener(view -> {
-            PopupMenu popupMenu = new PopupMenu(ProfileActivity.this, view);
-            popupMenu.getMenuInflater().inflate(R.menu.menu_profile, popupMenu.getMenu());
-
-            for (int i = 0; i < popupMenu.getMenu().size(); i++) {
-                MenuItem menuItem = popupMenu.getMenu().getItem(i);
-                SpannableString spanString = new SpannableString(menuItem.getTitle());
-                spanString.setSpan(new ForegroundColorSpan(Color.parseColor("#1E82A1")), 0, spanString.length(), 0);
-                menuItem.setTitle(spanString);
-            }
-
-            popupMenu.setOnMenuItemClickListener(item -> {
-                if (item.getItemId() == R.id.menu_logout) {
-                    logout();
-                    return true;
-                }
-                return false;
-            });
-
-            popupMenu.show();
-        });
+        menuIcon.setOnClickListener(this::showDropdownMenu);
 
         tabAll.setOnClickListener(v -> switchTab("all"));
         tabLost.setOnClickListener(v -> switchTab("lost"));
         tabFound.setOnClickListener(v -> switchTab("found"));
     }
 
+    private void showDropdownMenu(View anchor) {
+        View popupView = LayoutInflater.from(this).inflate(R.layout.dropdown_menu, null);
+        int width = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                300,
+                getResources().getDisplayMetrics()
+        );
+
+        PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                width,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+        );
+
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.showAsDropDown(anchor);
+
+        popupView.findViewById(R.id.home_page).setOnClickListener(v -> {
+            startActivity(new Intent(this, HomePage.class));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.edit_profile).setOnClickListener(v -> {
+            startActivity(new Intent(this, EditProfileActivity.class));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.terms).setOnClickListener(v -> {
+            startActivity(new Intent(this, TermsAndConditions.class));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.how_to_use).setOnClickListener(v -> {
+            startActivity(new Intent(this, HowToUseApp.class));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.about_us).setOnClickListener(v -> {
+            startActivity(new Intent(this, AboutUsActivity.class));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.share_app).setOnClickListener(v -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            String body = "Check out the app: https://play.google.com/store/apps/details?id=" + getPackageName();
+            shareIntent.putExtra(Intent.EXTRA_TEXT, body);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.logout).setOnClickListener(v -> {
+            fbAuth.signOut();
+            startActivity(new Intent(this, Login.class));
+            finish();
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.delete_account).setOnClickListener(v -> {
+            Toast.makeText(this, "Delete account coming soon.", Toast.LENGTH_SHORT).show();
+            popupWindow.dismiss();
+        });
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
         loadUserData();
-        switchTab("all"); // Default tab
+        switchTab("all");
     }
 
     private void switchTab(String tab) {
@@ -152,11 +202,11 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser user = fbAuth.getCurrentUser();
         if (user == null) return;
 
-        requestContainer.removeAllViews(); // Clear old posts
-        noPostText.setVisibility(View.GONE); // Hide message initially
+        requestContainer.removeAllViews();
+        noPostText.setVisibility(View.GONE);
 
         Query query = db.collection("posts").whereEqualTo("userId", user.getUid());
-        if (selectedTab.equals("lost") || selectedTab.equals("found")) {
+        if (!selectedTab.equals("all")) {
             query = query.whereEqualTo("type", selectedTab);
         }
 
@@ -165,7 +215,6 @@ public class ProfileActivity extends AppCompatActivity {
                     if (querySnapshot.isEmpty()) {
                         noPostText.setVisibility(View.VISIBLE);
                     } else {
-                        noPostText.setVisibility(View.GONE);
                         for (QueryDocumentSnapshot doc : querySnapshot) {
                             String title = doc.getString("title");
                             if (!TextUtils.isEmpty(title)) {
@@ -187,11 +236,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void setTextOrNoData(TextView textView, String value) {
-        if (TextUtils.isEmpty(value)) {
-            textView.setText("No data");
-        } else {
-            textView.setText(value);
-        }
+        textView.setText(TextUtils.isEmpty(value) ? "No data" : value);
     }
 
     private void showNoDataOnAllFields() {
@@ -200,12 +245,5 @@ public class ProfileActivity extends AppCompatActivity {
         phoneTextView.setText("No data");
         locationTextView.setText("No data");
         profileImageView.setImageResource(R.drawable.profile);
-    }
-
-    private void logout() {
-        fbAuth.signOut();
-        Toast.makeText(this, "Logged out", Toast.LENGTH_SHORT).show();
-        startActivity(new Intent(ProfileActivity.this, Login.class));
-        finish();
     }
 }

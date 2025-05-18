@@ -13,24 +13,23 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Header -->
         <LinearLayout
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="70dp"
             android:orientation="horizontal"
-            android:background="#D9D9D9"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            android:background="#D9D9D9">
 
             <ImageButton
-                android:id="@+id/menuOption"
+                android:id="@+id/menu_icon"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:src="@drawable/button"
                 android:paddingHorizontal="10dp"
-                android:contentDescription="Menu Options"/>
+                android:contentDescription="Menu Options"
+                android:background="@android:color/transparent" />
 
             <TextView
                 android:layout_width="0dp"
@@ -38,25 +37,13 @@
                 android:layout_weight="1"
                 android:text="ABOUT US"
                 android:fontFamily="@font/vollkorn"
-                android:layout_gravity="center"
                 android:textColor="#0371AC"
                 android:textSize="22sp"
                 android:textStyle="bold"
-                android:textAlignment="center"
-                android:gravity="center"/>
-
-            <ImageButton
-                android:id="@+id/btnMore"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_more_vert"
-                android:contentDescription="More options"/>
-
+                android:gravity="center" />
         </LinearLayout>
 
+        <!-- Scrollable Content -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,21 +52,21 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="This project works with social impact, regional and national which aims to enhance the collection and search for lost items and also it retrieval. Do not hesitate to leave a massage and we will contact you as soon as possible."
+                    android:text="This project works with social impact, regional and national which aims to enhance the collection and search for lost items and also its retrieval. Do not hesitate to leave a message and we will contact you as soon as possible."
                     android:textSize="18dp"
                     android:layout_marginVertical="10dp"
                     android:fontFamily="@font/vollkorn"
                     android:textColor="#fff"
-
                     android:justificationMode="inter_word"
-                    android:lineSpacingExtra="4dp"/>
+                    android:lineSpacingExtra="4dp" />
 
+                <!-- Admin Panel -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -87,13 +74,15 @@
                     android:fontFamily="@font/vollkorn"
                     android:textSize="24dp"
                     android:textStyle="bold"
-                    android:textColor="#FFE206"/>
+                    android:textColor="#FFE206" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginVertical="5dp">
+
+                    <!-- Admin 1 -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -104,15 +93,17 @@
                             android:layout_height="wrap_content"
                             android:src="@drawable/nishy"
                             android:padding="5dp"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Nayma Amin Nishy"
                             android:textColor="#fff"
                             android:gravity="center"
-                            android:fontFamily="@font/vollkorn"/>
+                            android:fontFamily="@font/vollkorn" />
                     </LinearLayout>
+
+                    <!-- Admin 2 -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -123,15 +114,17 @@
                             android:layout_height="wrap_content"
                             android:src="@drawable/asif"
                             android:padding="5dp"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Md. Asifuzzaman"
                             android:textColor="#fff"
                             android:gravity="center"
-                            android:fontFamily="@font/vollkorn"/>
+                            android:fontFamily="@font/vollkorn" />
                     </LinearLayout>
+
+                    <!-- Admin 3 -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -142,17 +135,18 @@
                             android:layout_height="wrap_content"
                             android:src="@drawable/mila"
                             android:padding="5dp"
-                            android:layout_gravity="center"/>
+                            android:layout_gravity="center" />
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Tasnuva Islam mila"
+                            android:text="Tasnuva Islam Mila"
                             android:textColor="#fff"
                             android:gravity="center"
-                            android:fontFamily="@font/vollkorn"/>
+                            android:fontFamily="@font/vollkorn" />
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- Contact Form -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,72 +154,75 @@
                     android:fontFamily="@font/vollkorn"
                     android:textSize="24dp"
                     android:textStyle="bold"
-                    android:textColor="#FFE206"/>
+                    android:textColor="#FFE206" />
 
                 <EditText
+                    android:id="@+id/name_input"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:hint="Your name"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/vollkorn"
                     android:background="@drawable/rounded_ll"
                     android:paddingLeft="10dp"
                     android:textSize="16dp"
-                    android:textColor="#000"/>
+                    android:textColor="#000" />
+
                 <EditText
+                    android:id="@+id/phone_input"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:hint="Your number: +880"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/vollkorn"
                     android:background="@drawable/rounded_ll"
                     android:paddingLeft="10dp"
                     android:textSize="16dp"
-                    android:textColor="#000"/>
+                    android:textColor="#000" />
+
                 <EditText
+                    android:id="@+id/email_input"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:hint="Your email"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/vollkorn"
                     android:background="@drawable/rounded_ll"
                     android:paddingLeft="10dp"
                     android:textSize="16dp"
-                    android:textColor="#000"/>
+                    android:textColor="#000" />
+
                 <EditText
+                    android:id="@+id/subject_input"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:hint="Subject"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/vollkorn"
                     android:background="@drawable/rounded_ll"
                     android:paddingLeft="10dp"
                     android:textSize="16dp"
-                    android:textColor="#000"/>
+                    android:textColor="#000" />
+
                 <EditText
+                    android:id="@+id/message_input"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:hint="Message"
                     android:layout_marginTop="10dp"
-                    android:layout_gravity="center"
-                    android:fontFamily="@font/vollkorn"
                     android:background="@drawable/rounded_ll"
                     android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
                     android:textSize="16dp"
-                    android:textColor="#000"/>
+                    android:textColor="#000"
+                    android:gravity="top|start" />
 
                 <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/send_button"
                     android:layout_width="100dp"
                     android:layout_height="40dp"
                     android:text="Send"
                     android:textColor="@color/white"
                     android:fontFamily="@font/vollkorn"
                     android:layout_marginVertical="15dp"
-                    android:background="@drawable/gradient_button"/>
+                    android:layout_gravity="center"
+                    android:background="@drawable/gradient_button" />
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

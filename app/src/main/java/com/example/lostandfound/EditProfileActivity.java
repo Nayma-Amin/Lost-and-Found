@@ -1,16 +1,26 @@
 package com.example.lostandfound;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.Toast;
+import android.widget.EditText;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.FirebaseApp;
@@ -19,22 +29,26 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class EditProfileActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
+
     private EditText nameEditText, emailEditText, phoneEditText, locationEditText;
     private RadioButton maleButton, femaleButton;
     private Button saveButton, cancelButton, selectPictureBtn;
-    private ImageButton imagePickerButton;
+    private ImageButton imagePickerButton, menuIcon;
     private ImageView profileImageView;
     private Uri imageUri;
+
     private FirebaseAuth fbAuth;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
-    private String gender = "";  // holds selected gender
+
+    private String gender = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +64,10 @@ public class EditProfileActivity extends AppCompatActivity {
         femaleButton = findViewById(R.id.femaleButton);
         saveButton = findViewById(R.id.saveButton);
         cancelButton = findViewById(R.id.cancelButton);
-        profileImageView = findViewById(R.id.image);
-
-        imagePickerButton = findViewById(R.id.select_newpicture);
         selectPictureBtn = findViewById(R.id.select_picture);
+        imagePickerButton = findViewById(R.id.select_newpicture);
+        profileImageView = findViewById(R.id.image);
+        menuIcon = findViewById(R.id.menu_icon);
 
         fbAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -61,10 +75,8 @@ public class EditProfileActivity extends AppCompatActivity {
 
         loadUserData();
 
-        // Cancel just finishes the activity
         cancelButton.setOnClickListener(v -> finish());
 
-        // Open gallery from both image buttons
         imagePickerButton.setOnClickListener(v -> openImagePicker());
         selectPictureBtn.setOnClickListener(v -> openImagePicker());
 
@@ -74,8 +86,64 @@ public class EditProfileActivity extends AppCompatActivity {
             } else if (femaleButton.isChecked()) {
                 gender = "Female";
             }
-
             updateUserData();
+        });
+
+        menuIcon.setOnClickListener(this::showDropdownMenu);
+    }
+
+    private void showDropdownMenu(View anchor) {
+        View popupView = LayoutInflater.from(this).inflate(R.layout.dropdown_menu, null);
+        int width = (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                300,
+                getResources().getDisplayMetrics()
+        );
+
+        PopupWindow popupWindow = new PopupWindow(popupView, width, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.showAsDropDown(anchor);
+
+        popupView.findViewById(R.id.home_page).setOnClickListener(v -> popupWindow.dismiss());
+
+        popupView.findViewById(R.id.edit_profile).setOnClickListener(v -> {
+            popupWindow.dismiss(); // Already here
+        });
+
+        popupView.findViewById(R.id.terms).setOnClickListener(v -> {
+            startActivity(new Intent(this, TermsAndConditions.class));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.how_to_use).setOnClickListener(v -> {
+            startActivity(new Intent(this, HowToUseApp.class));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.about_us).setOnClickListener(v -> {
+            startActivity(new Intent(this, AboutUsActivity.class));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.share_app).setOnClickListener(v -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            String shareBody = "Check out the app: https://play.google.com/store/apps/details?id=" + getPackageName();
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.logout).setOnClickListener(v -> {
+            FirebaseAuth.getInstance().signOut();
+            startActivity(new Intent(this, Login.class));
+            finish();
+            popupWindow.dismiss();
+        });
+
+        popupView.findViewById(R.id.delete_account).setOnClickListener(v -> {
+            Toast.makeText(this, "Delete account logic coming soon", Toast.LENGTH_SHORT).show();
+            popupWindow.dismiss();
         });
     }
 
