@@ -77,7 +77,8 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:src="@drawable/profile"/>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/editButton"
@@ -125,7 +126,8 @@
 
                     <TextView
                         android:id="@+id/emailEditText"
-                        android:fontFamily="@font/vollkorn"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:padding="5dp"/>
@@ -145,8 +147,9 @@
 
                     <TextView
                         android:id="@+id/phoneEditText"
+                        android:textStyle="bold"
                         android:layout_width="match_parent"
-                        android:fontFamily="@font/vollkorn"
+                        android:gravity="center_vertical"
                         android:layout_height="match_parent"
                         android:padding="5dp"/>
                 </LinearLayout>
@@ -165,7 +168,9 @@
 
                     <TextView
                         android:id="@+id/locationEditText"
+                        android:textStyle="bold"
                         android:layout_width="match_parent"
+                        android:gravity="center_vertical"
                         android:layout_height="match_parent"
                         android:fontFamily="@font/vollkorn"
                         android:padding="5dp"/>
@@ -196,6 +201,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="All"
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:fontFamily="@font/vollkorn"
                     android:backgroundTint="#1E82A1"
@@ -208,6 +214,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Lost"
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:fontFamily="@font/vollkorn"
                     android:backgroundTint="#d9d9d9"
@@ -220,6 +227,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:text="Found"
+                    android:gravity="center"
                     android:textStyle="bold"
                     android:fontFamily="@font/vollkorn"
                     android:backgroundTint="#d9d9d9"
@@ -243,6 +251,17 @@
                     android:orientation="vertical"
                     android:padding="8dp">
 
+                    <TextView
+                        android:id="@+id/noPostText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No post available"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/vollkorn"
+                        android:textColor="#888888"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="32dp"
+                        android:visibility="gone" />
                 </LinearLayout>
             </ScrollView>
         </LinearLayout>

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,7 +41,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseStorage storage;
 
-    private String gender = "";
+    private String gender = "";  // holds selected gender
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +76,18 @@ public class EditProfileActivity extends AppCompatActivity {
             } else if (femaleButton.isChecked()) {
                 gender = "Female";
             }
+
             updateUserData();
         });
+    }
+
+    private void setTextOrHint(EditText field, String value) {
+        if (TextUtils.isEmpty(value)) {
+            field.setText("");
+            field.setHint("No data");
+        } else {
+            field.setText(value);
+        }
     }
 
     private void loadUserData() {
@@ -85,10 +96,10 @@ public class EditProfileActivity extends AppCompatActivity {
             db.collection("users").document(user.getUid()).get()
                     .addOnSuccessListener(document -> {
                         if (document.exists()) {
-                            nameEditText.setText(document.getString("username"));
-                            emailEditText.setText(document.getString("email"));
-                            phoneEditText.setText(document.getString("phone"));
-                            locationEditText.setText(document.getString("location"));
+                            setTextOrHint(nameEditText, document.getString("username"));
+                            setTextOrHint(emailEditText, document.getString("email"));
+                            setTextOrHint(phoneEditText, document.getString("phone"));
+                            setTextOrHint(locationEditText, document.getString("location"));
 
                             String savedGender = document.getString("gender");
                             if ("Male".equalsIgnoreCase(savedGender)) {
@@ -98,8 +109,15 @@ public class EditProfileActivity extends AppCompatActivity {
                             }
 
                             String imageUrl = document.getString("profileImage");
-                            if (imageUrl != null && !imageUrl.isEmpty()) {
-                                Glide.with(this).load(imageUrl).into(profileImageView);
+                            if (!TextUtils.isEmpty(imageUrl)) {
+                                Glide.with(this)
+                                        .load(imageUrl)
+                                        .apply(new RequestOptions().centerCrop())
+                                        .placeholder(R.drawable.profile)
+                                        .error(R.drawable.profile)
+                                        .into(profileImageView);
+                            } else {
+                                profileImageView.setImageResource(R.drawable.profile);
                             }
                         }
                     })
@@ -173,7 +191,7 @@ public class EditProfileActivity extends AppCompatActivity {
         db.collection("users").document(uid).update(updates)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    finish();
+                    finish(); // Go back to profile page
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()
