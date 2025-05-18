@@ -33,27 +33,35 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
     implementation(libs.firebase.storage)
+
+    // Firebase BoM (only once)
+    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
+
+    // Firebase services
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-messaging")
+
+    // Google services
+    implementation("com.google.android.gms:play-services-auth:21.3.0")
+    implementation("com.google.android.gms:play-services-base:17.6.0")
+    implementation("com.google.android.gms:play-services-auth")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
+
+    // Charting
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    implementation(platform("com.google.firebase:firebase-bom:33.13.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-auth")
-    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.firebase:firebase-firestore:25.1.3")
-    implementation("com.google.android.gms:play-services-auth:21.3.0")
-    implementation("com.google.android.gms:play-services-base:17.6.0")
-    implementation("com.google.gms:google-services:4.3.15")
-    implementation("androidx.appcompat:appcompat:1.4.0")
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("com.google.firebase:firebase-messaging:23.4.1")
-    implementation("com.github.bumptech.glide:glide:4.16.0")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 }

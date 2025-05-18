@@ -24,5 +24,8 @@
         \n\nDo <b><font color='#FFFFFF'>Share our ap</font></b>p with your family and friends.
         \nFeel free to <b><font color='#FFFFFF'>Rate our app</font></b> </string>
 
+    <string name="default_web_client_id">your_web_client_id_from_google_services.json</string>
+
+
 
 </resources>
