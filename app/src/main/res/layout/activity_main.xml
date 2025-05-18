@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_color">
 
-    <!-- Header -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -50,7 +49,7 @@
         android:layout_marginVertical="10dp"
         android:background="#D9D9D9">
 
-    <!-- Search bar & filter -->
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -115,6 +114,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/filter_lay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -191,7 +191,7 @@
 
     </LinearLayout>
 
-    <!-- Posts List -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -208,7 +208,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Bottom Navigation -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -304,9 +304,22 @@
                     android:layout_weight="1"/>
 
                 <TextView
+                    android:id="@+id/loggedInUser"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:text="PROFILE"
+                    android:textColor="#2F6D80"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:fontFamily="@font/vollkorn"
+                    android:layout_gravity="center"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/guest"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:text="SIGNUP"
                     android:textColor="#2F6D80"
                     android:textStyle="bold"
                     android:fontFamily="@font/vollkorn"

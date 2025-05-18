@@ -33,9 +33,9 @@ public class HomePage extends AppCompatActivity {
             startActivity(new Intent(HomePage.this, Login.class));
         });
 
-//        btnGuest.setOnClickListener(v -> {
-//            startActivity(new Intent(HomePage.this, Login.class));
-//        });
+       btnGuest.setOnClickListener(v -> {
+           startActivity(new Intent(HomePage.this, MainActivity.class));
+       });
 
         termsText = findViewById(R.id.termsText);
         termsText.setOnClickListener(v -> {

@@ -38,6 +38,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.firebase.storage)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -52,6 +53,7 @@ dependencies {
     implementation("com.google.gms:google-services:4.3.15")
     implementation("androidx.appcompat:appcompat:1.4.0")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-
-
+    implementation("com.google.firebase:firebase-messaging:23.4.1")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 }

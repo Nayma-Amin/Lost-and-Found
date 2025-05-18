@@ -100,20 +100,7 @@
             android:fontFamily="@font/vollkorn"
             android:gravity="start"
             android:layout_marginTop="8dp"/>
-        <TextView
-            android:id="@+id/rate_app"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:background="@drawable/rounded_ll"
-            android:text="Rate our App"
-            android:textColor="#000000"
-            android:textStyle="bold"
-            android:backgroundTint="@color/white"
-            android:textSize="16sp"
-            android:fontFamily="@font/vollkorn"
-            android:gravity="start"
-            android:layout_marginTop="8dp"/>
+
 
         <TextView
             android:id="@+id/share_app"
@@ -122,6 +109,21 @@
             android:padding="16dp"
             android:background="@drawable/rounded_ll"
             android:text="Share our App"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:backgroundTint="@color/white"
+            android:fontFamily="@font/vollkorn"
+            android:gravity="start"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/logout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/rounded_ll"
+            android:text="Log Out"
             android:textColor="#000000"
             android:textStyle="bold"
             android:textSize="16sp"

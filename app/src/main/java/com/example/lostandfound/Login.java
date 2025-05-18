@@ -46,6 +46,10 @@ public class Login extends AppCompatActivity {
         etPassword = findViewById(R.id.etPassword);
 
        fbAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            checkIfInBinAndRestore(user.getUid());
+        }
 
         btnLogin = findViewById(R.id.btnLogin);
 
@@ -74,6 +78,16 @@ public class Login extends AppCompatActivity {
 
     }
 
+    private void checkIfInBinAndRestore(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("bin").document(userId).get().addOnSuccessListener(snapshot -> {
+            if (snapshot.exists()) {
+                db.collection("users").document(userId).set(snapshot.getData()).addOnSuccessListener(unused -> {
+                    db.collection("bin").document(userId).delete();
+                });
+            }
+        });
+    }
 
     private void loginUser(String email, String password) {
         fbAuth.signInWithEmailAndPassword(email, password)
@@ -84,6 +98,23 @@ public class Login extends AppCompatActivity {
                         if (user != null) {
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             String userId = user.getUid();
+
+                            com.google.firebase.messaging.FirebaseMessaging.getInstance().getToken()
+                                    .addOnCompleteListener(tokenTask -> {
+                                        if (tokenTask.isSuccessful()) {
+                                            String fcmToken = tokenTask.getResult();
+
+                                            db.collection("users").document(userId)
+                                                    .update("fcmToken", fcmToken)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                    })
+                                                    .addOnFailureListener(e -> {
+                                                        Toast.makeText(Login.this, "Failed to store FCM token: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    });
+                                        } else {
+                                            Toast.makeText(Login.this, "Fetching FCM token failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
 
                             db.collection("users").document(userId).get()
                                     .addOnSuccessListener(documentSnapshot -> {
@@ -108,4 +139,5 @@ public class Login extends AppCompatActivity {
                 });
     }
 
-    }
+
+}
