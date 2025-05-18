@@ -99,7 +99,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadUserData();
-        switchTab("all");
+        switchTab("all"); // Default tab
     }
 
     private void switchTab(String tab) {
@@ -152,8 +152,8 @@ public class ProfileActivity extends AppCompatActivity {
         FirebaseUser user = fbAuth.getCurrentUser();
         if (user == null) return;
 
-        requestContainer.removeAllViews();
-        noPostText.setVisibility(View.GONE);
+        requestContainer.removeAllViews(); // Clear old posts
+        noPostText.setVisibility(View.GONE); // Hide message initially
 
         Query query = db.collection("posts").whereEqualTo("userId", user.getUid());
         if (selectedTab.equals("lost") || selectedTab.equals("found")) {
@@ -165,6 +165,7 @@ public class ProfileActivity extends AppCompatActivity {
                     if (querySnapshot.isEmpty()) {
                         noPostText.setVisibility(View.VISIBLE);
                     } else {
+                        noPostText.setVisibility(View.GONE);
                         for (QueryDocumentSnapshot doc : querySnapshot) {
                             String title = doc.getString("title");
                             if (!TextUtils.isEmpty(title)) {

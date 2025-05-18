@@ -68,17 +68,18 @@
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:background="@drawable/rounded_ll">
 
-                    <TextView
+                    <Button
+                        android:id="@+id/select_picture"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:fontFamily="@font/vollkorn"
                         android:text="Select new Profile Picure"
                         android:textStyle="bold"
-                        android:gravity="center"/>
+                        android:backgroundTint="#D9D9D9"/>
 
                     <ImageButton
                         android:id="@+id/select_newpicture"

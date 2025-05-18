@@ -245,11 +245,16 @@
                 android:background="@drawable/rounded_ll">
 
                 <LinearLayout
-                    android:id="@+id/request_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="8dp">
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/request_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="8dp" />
 
                     <TextView
                         android:id="@+id/noPostText"
@@ -264,6 +269,7 @@
                         android:visibility="gone" />
                 </LinearLayout>
             </ScrollView>
+
         </LinearLayout>
     </LinearLayout>
 

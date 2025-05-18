@@ -10,9 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.FirebaseApp;
@@ -21,26 +19,21 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class EditProfileActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-
     private EditText nameEditText, emailEditText, phoneEditText, locationEditText;
     private RadioButton maleButton, femaleButton;
-    private Button saveButton, cancelButton;
+    private Button saveButton, cancelButton, selectPictureBtn;
     private ImageButton imagePickerButton;
     private ImageView profileImageView;
-
     private Uri imageUri;
-
     private FirebaseAuth fbAuth;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
-
     private String gender = "";  // holds selected gender
 
     @Override
@@ -57,8 +50,10 @@ public class EditProfileActivity extends AppCompatActivity {
         femaleButton = findViewById(R.id.femaleButton);
         saveButton = findViewById(R.id.saveButton);
         cancelButton = findViewById(R.id.cancelButton);
-        imagePickerButton = findViewById(R.id.select_newpicture);
         profileImageView = findViewById(R.id.image);
+
+        imagePickerButton = findViewById(R.id.select_newpicture);
+        selectPictureBtn = findViewById(R.id.select_picture);
 
         fbAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -66,9 +61,12 @@ public class EditProfileActivity extends AppCompatActivity {
 
         loadUserData();
 
+        // Cancel just finishes the activity
         cancelButton.setOnClickListener(v -> finish());
 
+        // Open gallery from both image buttons
         imagePickerButton.setOnClickListener(v -> openImagePicker());
+        selectPictureBtn.setOnClickListener(v -> openImagePicker());
 
         saveButton.setOnClickListener(v -> {
             if (maleButton.isChecked()) {
@@ -79,15 +77,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
             updateUserData();
         });
-    }
-
-    private void setTextOrHint(EditText field, String value) {
-        if (TextUtils.isEmpty(value)) {
-            field.setText("");
-            field.setHint("No data");
-        } else {
-            field.setText(value);
-        }
     }
 
     private void loadUserData() {
@@ -124,6 +113,15 @@ public class EditProfileActivity extends AppCompatActivity {
                     .addOnFailureListener(e ->
                             Toast.makeText(this, "Failed to load user data", Toast.LENGTH_SHORT).show()
                     );
+        }
+    }
+
+    private void setTextOrHint(EditText field, String value) {
+        if (TextUtils.isEmpty(value)) {
+            field.setText("");
+            field.setHint("No data");
+        } else {
+            field.setText(value);
         }
     }
 
