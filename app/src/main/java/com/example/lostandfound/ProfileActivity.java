@@ -5,29 +5,31 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
-
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -252,6 +254,25 @@ public class ProfileActivity extends AppCompatActivity {
         loadUserPosts();
     }
 
+    private Bitmap getRoundedBitmap(Bitmap bitmap) {
+        int radius = dpToPx(10); // Adjust as needed
+
+        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(output);
+
+        final Paint paint = new Paint();
+        final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        final RectF rectF = new RectF(rect);
+
+        paint.setAntiAlias(true);
+        canvas.drawRoundRect(rectF, radius, radius, paint);
+
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return output;
+    }
+
     private void loadUserData() {
         FirebaseUser user = fbAuth.getCurrentUser();
         if (user != null) {
@@ -272,11 +293,11 @@ public class ProfileActivity extends AppCompatActivity {
                                 try {
                                     byte[] decodedBytes = android.util.Base64.decode(imageData, android.util.Base64.DEFAULT);
                                     android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
-                                    profileImageView.setImageBitmap(bitmap);
+                                    profileImageView.setImageBitmap(getRoundedBitmap(bitmap));
                                 } catch (IllegalArgumentException e) {
                                     Glide.with(this)
                                             .load(imageData)
-                                            .apply(new RequestOptions().centerCrop())
+                                            .transform(new CenterCrop(), new RoundedCorners(20))  // 20px corner radius
                                             .placeholder(R.drawable.profile)
                                             .error(R.drawable.profile)
                                             .into(profileImageView);
@@ -343,4 +364,13 @@ public class ProfileActivity extends AppCompatActivity {
         locationTextView.setText("No data");
         profileImageView.setImageResource(R.drawable.profile);
     }
+
+    private int dpToPx(int dp) {
+        return (int) TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP,
+                dp,
+                getResources().getDisplayMetrics()
+        );
+    }
+
 }

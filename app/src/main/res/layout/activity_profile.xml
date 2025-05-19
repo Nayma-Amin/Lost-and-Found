@@ -74,14 +74,23 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/image"
+                <FrameLayout
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_gravity="center"
-                    android:layout_weight="1"
                     android:layout_marginTop="10dp"
-                    android:src="@drawable/profile"/>
+                    android:background="@drawable/rounded_circle"
+                    android:clipToOutline="true"
+                    android:outlineProvider="background">
+
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/profile" />
+                </FrameLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/editButton"
