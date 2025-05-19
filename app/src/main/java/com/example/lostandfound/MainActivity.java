@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        ImageView profileImageView = findViewById(R.id.profileImageView); // Replace with your actual ImageView ID
+        ImageView profileImageView = findViewById(R.id.profileImageView);
 
         if (!isGuest) {
             String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();

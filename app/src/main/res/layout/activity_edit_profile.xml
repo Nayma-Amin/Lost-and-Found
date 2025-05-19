@@ -89,6 +89,7 @@
                         android:layout_width="200dp"
                         android:layout_height="40dp"
                         android:fontFamily="@font/vollkorn"
+                        android:textColor="@color/black"
                         android:text="Select new Profile Picure"
                         android:textStyle="bold"
                         android:backgroundTint="#D9D9D9"/>
@@ -103,7 +104,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
@@ -113,6 +114,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="NAME"
+                        android:layout_marginStart="25dp"
                         android:fontFamily="@font/vollkorn"
                         android:paddingBottom="5dp"
                         android:textColor="#fff"/>
@@ -120,6 +122,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
+                        android:layout_gravity="center"
                         android:orientation="horizontal"
                         android:padding="2dp"
                         android:background="@drawable/rounded_ll">
@@ -146,7 +149,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
@@ -156,6 +159,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="EMAIL"
+                        android:layout_marginStart="25dp"
                         android:fontFamily="@font/vollkorn"
                         android:paddingBottom="5dp"
                         android:textColor="#fff"/>
@@ -163,6 +167,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
+                        android:layout_gravity="center"
                         android:orientation="horizontal"
                         android:padding="2dp"
                         android:background="@drawable/rounded_ll">
@@ -188,7 +193,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
@@ -198,6 +203,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="CONTACT"
+                        android:layout_marginStart="25dp"
                         android:fontFamily="@font/vollkorn"
                         android:paddingBottom="5dp"
                         android:textColor="#fff"/>
@@ -206,6 +212,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
                         android:orientation="horizontal"
+                        android:layout_gravity="center"
                         android:padding="2dp"
                         android:background="@drawable/rounded_ll">
 
@@ -230,7 +237,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
@@ -240,6 +247,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="LOCATION"
+                        android:layout_marginStart="25dp"
                         android:fontFamily="@font/vollkorn"
                         android:paddingBottom="5dp"
                         android:textColor="#fff"/>
@@ -248,6 +256,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="60dp"
                         android:orientation="horizontal"
+                        android:layout_gravity="center"
                         android:padding="2dp"
                         android:background="@drawable/rounded_ll">
 
@@ -274,7 +283,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="10dp"
@@ -284,6 +293,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="GENDER"
+                        android:layout_marginStart="25dp"
                         android:fontFamily="@font/vollkorn"
                         android:paddingBottom="5dp"
                         android:textColor="#fff"/>
@@ -291,6 +301,7 @@
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -298,6 +309,7 @@
                             android:layout_width="140dp"
                             android:layout_height="40dp"
                             android:text="Male"
+                            android:textColor="@color/black"
                             android:fontFamily="@font/vollkorn"
                             android:layout_marginRight="10dp"
                             android:background="@drawable/rounded_ll"/>
@@ -307,6 +319,7 @@
                             android:layout_width="140dp"
                             android:layout_height="40dp"
                             android:text="Female"
+                            android:textColor="@color/black"
                             android:fontFamily="@font/vollkorn"
                             android:layout_marginLeft="10dp"
                             android:background="@drawable/rounded_ll"/>
@@ -318,6 +331,7 @@
                     android:layout_width="300dp"
                     android:layout_height="50dp"
                     android:text="Forget Password?"
+                    android:textColor="@color/black"
                     android:paddingLeft="10dp"
                     android:layout_marginTop="15dp"
                     android:layout_gravity="center"

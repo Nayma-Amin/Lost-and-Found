@@ -90,8 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/transparent"
-        android:backgroundTint="@drawable/background_color">
+        android:background="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -135,7 +134,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Others"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -162,7 +161,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Truck"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -189,7 +188,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Bike"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -216,7 +215,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Books"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -243,7 +242,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Cycle"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -270,7 +269,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Camera"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -297,7 +296,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Ear Phone"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -324,7 +323,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Charger"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -351,7 +350,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Mobile"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -378,7 +377,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Laptop/PC"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -405,7 +404,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Car"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -432,7 +431,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Watch"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -459,7 +458,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Purse"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -486,7 +485,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Shoes"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -513,7 +512,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="School Bag"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -540,7 +539,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Files"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -567,7 +566,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Keys"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -594,7 +593,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Gloves"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -621,7 +620,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Certificates"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -648,7 +647,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Glasses"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -675,7 +674,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Bag"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -702,7 +701,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Cards"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -729,7 +728,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Jewellery"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -756,7 +755,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Umbrella"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -783,7 +782,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="ID Cards"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -810,7 +809,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Clothes"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -835,7 +834,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Scarf"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -862,7 +861,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Wallet"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -905,7 +904,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Others"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -932,7 +931,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Women"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -959,7 +958,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Men"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -986,7 +985,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Children"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1013,7 +1012,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Elders"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1040,7 +1039,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Special"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold"/>
                 </LinearLayout>
 
@@ -1066,7 +1065,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Birds"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1093,7 +1092,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Rabbit"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1120,7 +1119,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Cat"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1147,7 +1146,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Dog"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1201,7 +1200,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Fish"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1228,7 +1227,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Exotics"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1255,7 +1254,7 @@
                         android:fontFamily="@font/vollkorn"
                         android:text="Insects"
                         android:textColor="#006D8F"
-                        android:textSize="15sp"
+                        android:textSize="12sp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
@@ -1270,7 +1269,6 @@
         android:text="Select your desired category or add a new category through others!"
         android:textAlignment="center"
         android:textColor="@android:color/white"
-        android:background="@drawable/background_color"
         android:padding="12dp"
         android:textSize="14sp"
         android:fontFamily="@font/vollkorn" />

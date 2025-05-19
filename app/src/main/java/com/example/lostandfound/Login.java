@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -58,7 +59,7 @@ public class Login extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
 
-       fbAuth = FirebaseAuth.getInstance();
+        fbAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             checkIfInBinAndRestore(user.getUid());
@@ -92,64 +93,85 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private void checkIfInBinAndRestore(String userId) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("bin").document(userId).get().addOnSuccessListener(snapshot -> {
-            if (snapshot.exists()) {
-                db.collection("users").document(userId).set(snapshot.getData()).addOnSuccessListener(unused -> {
-                    db.collection("bin").document(userId).delete();
-                });
-            }
-        });
-    }
-
     private void loginUser(String email, String password) {
         fbAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Login.this, task -> {
-                    pbIcon.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
+                        pbIcon.setVisibility(View.VISIBLE);
+
                         FirebaseUser user = fbAuth.getCurrentUser();
-                        if (user != null) {
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            String userId = user.getUid();
-
-                            com.google.firebase.messaging.FirebaseMessaging.getInstance().getToken()
-                                    .addOnCompleteListener(tokenTask -> {
-                                        if (tokenTask.isSuccessful()) {
-                                            String fcmToken = tokenTask.getResult();
-
-                                            db.collection("users").document(userId)
-                                                    .update("fcmToken", fcmToken)
-                                                    .addOnSuccessListener(aVoid -> {
-                                                    })
-                                                    .addOnFailureListener(e -> {
-                                                        Toast.makeText(Login.this, "Failed to store FCM token: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                    });
-                                        } else {
-                                            Toast.makeText(Login.this, "Fetching FCM token failed", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-
-                            db.collection("users").document(userId).get()
-                                    .addOnSuccessListener(documentSnapshot -> {
-                                        if (documentSnapshot.exists()) {
-                                            String username = documentSnapshot.getString("username");
-
-                                            Toast.makeText(Login.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(Login.this, MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        } else {
-                                            Toast.makeText(Login.this, "User profile not found in Firestore.", Toast.LENGTH_SHORT).show();
-                                        }
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        Toast.makeText(Login.this, "Firestore error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                    });
+                        if (user == null) {
+                            Toast.makeText(Login.this, "Login failed: user is null", Toast.LENGTH_SHORT).show();
+                            pbIcon.setVisibility(View.GONE);
+                            return;
                         }
+
+                        String userId = user.getUid();
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                        db.collection("users").document(userId).get()
+                                .addOnSuccessListener(documentSnapshot -> {
+                                    if (documentSnapshot.exists()) {
+                                        com.google.firebase.messaging.FirebaseMessaging.getInstance().getToken()
+                                                .addOnCompleteListener(tokenTask -> {
+                                                    if (tokenTask.isSuccessful()) {
+                                                        String fcmToken = tokenTask.getResult();
+                                                        db.collection("users").document(userId)
+                                                                .update("fcmToken", fcmToken)
+                                                                .addOnFailureListener(e -> Toast.makeText(Login.this, "Failed to store FCM token", Toast.LENGTH_SHORT).show());
+                                                    }
+                                                });
+
+                                        pbIcon.setVisibility(View.GONE);
+                                        String username = documentSnapshot.getString("username");
+                                        Toast.makeText(Login.this, "Welcome " + username, Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(Login.this, MainActivity.class));
+                                        finish();
+
+                                    } else {
+                                        checkIfInBinAndRestore(userId);
+                                    }
+                                })
+                                .addOnFailureListener(e -> {
+                                    pbIcon.setVisibility(View.GONE);
+                                    Toast.makeText(Login.this, "Firestore error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                });
+
                     } else {
-                        Toast.makeText(Login.this, "Login failed: " + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
+                        pbIcon.setVisibility(View.GONE);
+                        Toast.makeText(Login.this, "Login failed: " +
+                                (task.getException() != null ? task.getException().getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+    private void checkIfInBinAndRestore(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("bin").document(userId).get()
+                .addOnSuccessListener(snapshot -> {
+                    if (snapshot.exists()) {
+                        db.collection("users").document(userId)
+                                .set(snapshot.getData())
+                                .addOnSuccessListener(aVoid -> {
+                                    db.collection("bin").document(userId).delete();
+                                    Log.d("Login", "User restored from bin");
+
+                                    Toast.makeText(Login.this, "Welcome back!", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(Login.this, MainActivity.class));
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> {
+                                    Log.e("Login", "Failed to restore user from bin", e);
+                                    Toast.makeText(Login.this, "Error restoring user", Toast.LENGTH_SHORT).show();
+                                });
+                    } else {
+                        Toast.makeText(Login.this, "User not found", Toast.LENGTH_SHORT).show();
+                        Log.d("Login", "User not found in 'users' or 'bin'");
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Login", "Failed to check 'bin' collection", e);
+                });
+    }
+
 }
