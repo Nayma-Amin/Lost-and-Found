@@ -234,13 +234,14 @@
             <ImageView
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:layout_marginTop="5dp"
                 android:src="@drawable/post"
                 android:layout_gravity="center"
                 android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:text="POST"
                 android:fontFamily="@font/vollkorn"
                 android:textColor="#2F6D80"
@@ -267,13 +268,14 @@
                 <ImageView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:layout_marginTop="5dp"
                     android:src="@drawable/report"
                     android:layout_gravity="center"
                     android:layout_weight="1"/>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text="REPORT"
                     android:fontFamily="@font/vollkorn"
                     android:textColor="#2F6D80"
@@ -297,6 +299,8 @@
                 android:background="@drawable/rounded_ll"
                 android:orientation="vertical">
                 <ImageView
+                    android:id="@+id/profileImageView"
+                    android:layout_marginTop="5dp"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/profile"
@@ -306,7 +310,7 @@
                 <TextView
                     android:id="@+id/loggedInUser"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text="PROFILE"
                     android:textColor="#2F6D80"
                     android:textStyle="bold"
@@ -318,7 +322,7 @@
                 <TextView
                     android:id="@+id/guest"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:text="SIGNUP"
                     android:textColor="#2F6D80"
                     android:textStyle="bold"

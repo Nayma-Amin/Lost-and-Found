@@ -2,10 +2,13 @@ package com.example.lostandfound;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -85,6 +88,35 @@ public class MainActivity extends AppCompatActivity {
             else startActivity(new Intent(this, ReportActivity.class));
         });
 
+
+        ImageView profileImageView = findViewById(R.id.profileImageView); // Replace with your actual ImageView ID
+
+        if (!isGuest) {
+            String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            FirebaseFirestore.getInstance().collection("users")
+                    .document(currentUserId)
+                    .get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists() && documentSnapshot.contains("profileImage")) {
+                            String base64Image = documentSnapshot.getString("profileImage");
+                            if (base64Image != null && !base64Image.isEmpty()) {
+                                byte[] decodedBytes = Base64.decode(base64Image, Base64.DEFAULT);
+                                Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                                profileImageView.setImageBitmap(decodedBitmap);
+                            } else {
+                                profileImageView.setImageResource(R.drawable.profile);
+                            }
+                        } else {
+                            profileImageView.setImageResource(R.drawable.profile);
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        profileImageView.setImageResource(R.drawable.profile);
+                    });
+        } else {
+            profileImageView.setImageResource(R.drawable.profile);
+        }
+
         profileLayout.setOnClickListener(v -> {
             if (isGuest) {
                 startActivity(new Intent(this, HomePage.class));
@@ -92,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ProfileActivity.class));
             }
         });
+
     }
 
     private void showDropdownMenu() {

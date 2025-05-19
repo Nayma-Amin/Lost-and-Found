@@ -30,6 +30,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/button"
                 android:paddingHorizontal="10dp"
+                android:background="@null"
                 android:contentDescription="Menu Options"/>
 
             <TextView

@@ -263,14 +263,24 @@ public class ProfileActivity extends AppCompatActivity {
                             setTextOrNoData(phoneTextView, documentSnapshot.getString("phone"));
                             setTextOrNoData(locationTextView, documentSnapshot.getString("location"));
 
-                            String imageUrl = documentSnapshot.getString("profileImage");
-                            if (!TextUtils.isEmpty(imageUrl)) {
-                                Glide.with(this)
-                                        .load(imageUrl)
-                                        .apply(new RequestOptions().centerCrop())
-                                        .placeholder(R.drawable.profile)
-                                        .error(R.drawable.profile)
-                                        .into(profileImageView);
+                            String imageData = documentSnapshot.getString("profileImage");
+                            if (!TextUtils.isEmpty(imageData)) {
+                                if (imageData.startsWith("data:image")) {
+                                    imageData = imageData.substring(imageData.indexOf(",") + 1);
+                                }
+
+                                try {
+                                    byte[] decodedBytes = android.util.Base64.decode(imageData, android.util.Base64.DEFAULT);
+                                    android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                                    profileImageView.setImageBitmap(bitmap);
+                                } catch (IllegalArgumentException e) {
+                                    Glide.with(this)
+                                            .load(imageData)
+                                            .apply(new RequestOptions().centerCrop())
+                                            .placeholder(R.drawable.profile)
+                                            .error(R.drawable.profile)
+                                            .into(profileImageView);
+                                }
                             } else {
                                 profileImageView.setImageResource(R.drawable.profile);
                             }
@@ -283,6 +293,7 @@ public class ProfileActivity extends AppCompatActivity {
                     );
         }
     }
+
 
     private void loadUserPosts() {
         FirebaseUser user = fbAuth.getCurrentUser();

@@ -27,9 +27,9 @@
                 android:layout_height="70dp"
                 android:layout_gravity="center"
                 android:src="@drawable/button"
+                android:background="@null"
                 android:paddingHorizontal="10dp"
-                android:contentDescription="Menu Options"
-                android:background="@android:color/transparent" />
+                android:contentDescription="Menu Options" />
 
             <TextView
                 android:layout_width="0dp"
