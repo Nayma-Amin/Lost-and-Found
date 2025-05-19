@@ -90,11 +90,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="4dp"
+                    android:padding="2dp"
                     android:background="@drawable/rounded_ll">
 
                     <TextView
                         android:layout_width="300dp"
-                        android:layout_height="48dp"
+                        android:layout_height="50dp"
                         android:fontFamily="@font/vollkorn"
                         android:hint="Insert Category"
                         android:textColorHint="#5B5A5A"
@@ -259,14 +260,15 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="4dp"
+                        android:padding="2dp"
                         android:background="@drawable/rounded_ll">
 
                         <EditText
                             android:id="@+id/editTextContact"
                             android:layout_width="300dp"
-                            android:layout_height="48dp"
+                            android:layout_height="50dp"
                             android:hint="+8801*********"
-                            android:gravity="top|start"
+                            android:layout_gravity="center"
                             android:background="@drawable/rounded_ll"
                             android:padding="8dp"
                             android:textColor="@android:color/black"
@@ -299,15 +301,17 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="4dp"
+                        android:padding="2dp"
                         android:background="@drawable/rounded_ll">
 
                         <EditText
                             android:id="@+id/editTextLocation"
                             android:layout_width="300dp"
-                            android:layout_height="48dp"
+                            android:layout_height="50dp"
                             android:hint="Last seen"
                             android:fontFamily="@font/vollkorn"
-                            android:gravity="top|start"
+                            android:gravity="start"
+                            android:layout_gravity="center"
                             android:background="@drawable/rounded_ll"
                             android:padding="8dp"
                             android:textColor="@android:color/black"

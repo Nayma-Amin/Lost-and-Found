@@ -53,6 +53,8 @@ public class SignUp extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         etPhone = findViewById(R.id.etPhone);
+        pbIcon = findViewById(R.id.pbIcon);
+
 
         cbTerms = findViewById(R.id.cbTerms);
 
@@ -61,13 +63,6 @@ public class SignUp extends AppCompatActivity {
         tvLAlreadyHaveAccount = findViewById(R.id.tvLAlreadyHaveAccount);
 
         fbAuth = FirebaseAuth.getInstance();
-
-
-//        if(fbAuth.getCurrentUser() != null){
-//            Intent i = new Intent(this, Login.class);
-//            startActivity(i);
-//        }
-
 
         tvLAlreadyHaveAccount.setOnClickListener(v -> {
             Intent intent = new Intent(SignUp.this, Login.class);
@@ -95,6 +90,7 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
+            pbIcon.setVisibility(View.VISIBLE);
 
            fbAuth.createUserWithEmailAndPassword(emailText, passwordText)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -103,6 +99,7 @@ public class SignUp extends AppCompatActivity {
                             pbIcon.setVisibility(View.GONE);
                             if (task.isSuccessful()) {
                                 FirebaseUser user = fbAuth.getCurrentUser();
+
                                 if (user != null) {
                                     Toast.makeText(SignUp.this, "Signup is successful, " + user.getEmail(), Toast.LENGTH_SHORT).show();
 
@@ -115,8 +112,11 @@ public class SignUp extends AppCompatActivity {
                                     userMap.put("uid", user.getUid());
 
                                     ub.collection("users").document(user.getUid()).set(userMap).addOnSuccessListener(aVoid -> {
-                                                Toast.makeText(SignUp.this, "User data saved", Toast.LENGTH_SHORT).show();
-                                                finish();
+                                                if (fbAuth.getCurrentUser() != null) {
+                                                    Toast.makeText(SignUp.this, "Account created. Please log in.", Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(SignUp.this, Login.class));
+                                                    finish();
+                                                }
                                             })
                                             .addOnFailureListener(e -> {
                                                 Toast.makeText(SignUp.this, "Firestore error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -131,18 +131,3 @@ public class SignUp extends AppCompatActivity {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

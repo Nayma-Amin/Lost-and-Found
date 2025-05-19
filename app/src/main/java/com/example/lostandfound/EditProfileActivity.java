@@ -1,11 +1,15 @@
 package com.example.lostandfound;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +34,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -165,17 +171,15 @@ public class EditProfileActivity extends AppCompatActivity {
                                 femaleButton.setChecked(true);
                             }
 
-                            String imageUrl = document.getString("profileImage");
-                            if (!TextUtils.isEmpty(imageUrl)) {
-                                Glide.with(this)
-                                        .load(imageUrl)
-                                        .apply(new RequestOptions().centerCrop())
-                                        .placeholder(R.drawable.profile)
-                                        .error(R.drawable.profile)
-                                        .into(profileImageView);
+                            String imageBase64 = document.getString("profileImage");
+                            if (!TextUtils.isEmpty(imageBase64)) {
+                                byte[] decodedBytes = Base64.decode(imageBase64, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                                profileImageView.setImageBitmap(bitmap);
                             } else {
                                 profileImageView.setImageResource(R.drawable.profile);
                             }
+
                         }
                     })
                     .addOnFailureListener(e ->
@@ -214,10 +218,13 @@ public class EditProfileActivity extends AppCompatActivity {
             updates.put("gender", gender);
 
             if (imageUri != null) {
-                uploadImageAndSave(user.getUid(), updates);
-            } else {
-                saveToFirestore(user.getUid(), updates);
+                String base64Image = convertImageToBase64(imageUri);
+                if (base64Image != null) {
+                    updates.put("profileImage", base64Image);
+                }
             }
+            saveToFirestore(user.getUid(), updates);
+
         }
     }
 
@@ -234,10 +241,24 @@ public class EditProfileActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            profileImageView.setImageURI(imageUri); // Show preview
+            profileImageView.setImageURI(imageUri);
             Toast.makeText(this, "Image selected", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private String convertImageToBase64(Uri uri) {
+        try {
+            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, stream);
+            byte[] byteArray = stream.toByteArray();
+            return Base64.encodeToString(byteArray, Base64.DEFAULT);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     private void uploadImageAndSave(String uid, Map<String, Object> updates) {
         StorageReference storageRef = storage.getReference().child("profile_images/" + uid + ".jpg");
@@ -257,7 +278,7 @@ public class EditProfileActivity extends AppCompatActivity {
         db.collection("users").document(uid).update(updates)
                 .addOnSuccessListener(unused -> {
                     Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                    finish(); // Go back to profile page
+                    finish();
                 })
                 .addOnFailureListener(e ->
                         Toast.makeText(this, "Update failed: " + e.getMessage(), Toast.LENGTH_SHORT).show()

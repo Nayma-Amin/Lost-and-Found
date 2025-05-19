@@ -12,7 +12,20 @@
           "package_name": "com.example.lostandfound"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "807585050584-l1on33ankbnmv2a83rbeomi2leb696c7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.lostandfound",
+            "certificate_hash": "023d59487f3db8c1f2669f93da45fbdd60143e6b"
+          }
+        },
+        {
+          "client_id": "807585050584-si9laudn453njo2mc1agqbm993gcom78.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAqelYJ_Ope5EBRhbV5-Hd2141Y7PWTDgo"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "807585050584-si9laudn453njo2mc1agqbm993gcom78.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

@@ -1,5 +1,6 @@
 package com.example.lostandfound;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -30,6 +31,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -126,22 +128,106 @@ public class ProfileActivity extends AppCompatActivity {
         popupView.findViewById(R.id.share_app).setOnClickListener(v -> {
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            String body = "Check out the app: https://play.google.com/store/apps/details?id=" + getPackageName();
-            shareIntent.putExtra(Intent.EXTRA_TEXT, body);
+            String shareBody = "Check out our app: https://play.google.com/store/apps/details?id=" + getPackageName();
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareBody);
             startActivity(Intent.createChooser(shareIntent, "Share via"));
             popupWindow.dismiss();
         });
 
         popupView.findViewById(R.id.logout).setOnClickListener(v -> {
-            fbAuth.signOut();
-            startActivity(new Intent(this, Login.class));
-            finish();
+            logoutAndRemoveToken();
             popupWindow.dismiss();
         });
 
         popupView.findViewById(R.id.delete_account).setOnClickListener(v -> {
-            Toast.makeText(this, "Delete account coming soon.", Toast.LENGTH_SHORT).show();
+            showDeleteAccountPopup();
             popupWindow.dismiss();
+        });
+    }
+
+    private void logoutAndRemoveToken() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            FirebaseFirestore.getInstance().collection("users")
+                    .document(userId)
+                    .update("fcmToken", FieldValue.delete())
+                    .addOnSuccessListener(aVoid -> {
+                        FirebaseAuth.getInstance().signOut();
+                        startActivity(new Intent(this, Login.class));
+                        finish();
+                    });
+        }
+    }
+
+    private void showDeleteAccountPopup() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(60, 40, 60, 10);
+
+        TextView message = new TextView(this);
+        message.setText("Are you sure you want to delete your account? This action can be undone if you log in within 7 days.");
+        message.setTextSize(16);
+        message.setTextColor(Color.BLACK);
+        message.setPadding(0, 0, 0, 30);
+        layout.addView(message);
+
+        LinearLayout buttonLayout = new LinearLayout(this);
+        buttonLayout.setOrientation(LinearLayout.HORIZONTAL);
+        buttonLayout.setGravity(Gravity.END);
+
+        Button confirmButton = new Button(this);
+        confirmButton.setText("Delete");
+        confirmButton.setTextColor(Color.WHITE);
+        confirmButton.setBackgroundColor(Color.RED);
+        confirmButton.setPadding(30, 10, 30, 10);
+
+        Button cancelButton = new Button(this);
+        cancelButton.setText("Cancel");
+        cancelButton.setTextColor(Color.BLACK);
+        cancelButton.setBackgroundColor(Color.LTGRAY);
+        cancelButton.setPadding(30, 10, 30, 10);
+
+        buttonLayout.addView(cancelButton);
+        buttonLayout.addView(confirmButton);
+        layout.addView(buttonLayout);
+
+        builder.setView(layout);
+        AlertDialog dialog = builder.create();
+        dialog.show();
+
+        confirmButton.setOnClickListener(v -> {
+            moveToBinAndDeleteUser();
+            dialog.dismiss();
+        });
+
+        cancelButton.setOnClickListener(v -> dialog.dismiss());
+    }
+
+    private void moveToBinAndDeleteUser() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) return;
+
+        String userId = currentUser.getUid();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("users").document(userId).get().addOnSuccessListener(snapshot -> {
+            if (snapshot.exists()) {
+                db.collection("bin").document(userId).set(snapshot.getData())
+                        .addOnSuccessListener(unused -> {
+                            db.collection("fcmTokens").document(userId)
+                                    .delete()
+                                    .addOnCompleteListener(task -> {
+                                        db.collection("users").document(userId).delete();
+
+                                        FirebaseAuth.getInstance().signOut();
+                                        startActivity(new Intent(this, Login.class));
+                                        finish();
+                                    });
+                        });
+            }
         });
     }
 
