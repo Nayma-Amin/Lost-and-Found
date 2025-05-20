@@ -131,7 +131,8 @@ public class PostActivity extends AppCompatActivity {
                 String dateTime = String.format(Locale.getDefault(), "%04d-%02d-%02d %02d:%02d",
                         year, month + 1, dayOfMonth, hourOfDay, minute);
                 editTextTime.setText(dateTime);
-            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
+            },
+                    calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 

@@ -21,4 +21,6 @@ public class HowToUseApp extends AppCompatActivity {
             return insets;
         });
     }
+
+
 }

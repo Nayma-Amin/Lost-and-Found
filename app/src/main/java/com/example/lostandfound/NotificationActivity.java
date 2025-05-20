@@ -57,8 +57,6 @@ public class NotificationActivity extends AppCompatActivity {
         // Initially show empty state
         updateNotificationVisibility();
 
-        // Example: Add test notification
-        // addNotification();
     }
 
     private void showDropdownMenu(View anchor) {

@@ -1,6 +1,5 @@
 package com.example.lostandfound;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -46,7 +45,6 @@ import java.util.Map;
 public class EditProfileActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 1;
-
     private EditText nameEditText, emailEditText, phoneEditText, locationEditText;
     private RadioButton maleButton, femaleButton;
     private Button saveButton, cancelButton, selectPictureBtn;

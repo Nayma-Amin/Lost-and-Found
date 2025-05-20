@@ -255,7 +255,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private Bitmap getRoundedBitmap(Bitmap bitmap) {
-        int radius = dpToPx(10); // Adjust as needed
+        int radius = dpToPx(10);
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);

@@ -28,13 +28,11 @@ public class TokenUtil {
 
                 GoogleCredentials credentials = GoogleCredentials.fromStream(serviceAccount)
                         .createScoped("https://www.googleapis.com/auth/firebase.messaging");
-
                 credentials.refreshIfExpired();
-
                 AccessToken token = credentials.getAccessToken();
                 String accessToken = token.getTokenValue();
 
-                Log.d(TAG, "Access Token retrieved: " + accessToken);
+                Log.i(TAG, "Access Token retrieved: " + accessToken);
                 callback.onTokenReceived(accessToken);
 
             } catch (IOException e) {

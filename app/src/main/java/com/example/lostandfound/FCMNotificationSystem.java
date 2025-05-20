@@ -41,7 +41,7 @@ public class FCMNotificationSystem extends FirebaseMessagingService {
         }
     }
     private void showNotification(String title, String message){
-        Log.d("FCM", "Showing notification: " + title + " - " + message);
+        Log.i("FCM", "Showing notification: " + title + " - " + message);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
                 requestNotificationPermission();

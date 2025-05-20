@@ -84,7 +84,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         popupView.findViewById(R.id.about_us).setOnClickListener(v -> {
             if (this instanceof AboutUsActivity) {
-                Toast.makeText(this, "You are already in About Us!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "You are already in About Us Page!", Toast.LENGTH_SHORT).show();
             } else {
                 startActivity(new Intent(this, AboutUsActivity.class));
             }

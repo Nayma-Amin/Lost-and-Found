@@ -19,9 +19,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomePage extends AppCompatActivity {
-    Button btnSignUp, btnLogin, btnGuest;
+    private Button btnSignUp, btnLogin, btnGuest;
 
-    TextView termsText;
+    private TextView termsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

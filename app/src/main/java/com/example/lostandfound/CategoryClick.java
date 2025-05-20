@@ -68,4 +68,6 @@ public class CategoryClick extends AppCompatActivity {
         intent.putExtra("isEditable", editable);
         startActivity(intent);
     }
+
+
 }

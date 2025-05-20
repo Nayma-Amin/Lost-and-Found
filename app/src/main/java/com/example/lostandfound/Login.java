@@ -153,7 +153,7 @@ public class Login extends AppCompatActivity {
                     } else {
                         pbIcon.setVisibility(View.GONE);
                         Toast.makeText(Login.this, "Login failed: " +
-                                (task.getException() != null ? task.getException().getMessage() : "Unknown error"), Toast.LENGTH_SHORT).show();
+                                (task.getException() != null ? task.getException().getMessage() : "Unknown error occurred"), Toast.LENGTH_SHORT).show();
                     }
                 });
     }

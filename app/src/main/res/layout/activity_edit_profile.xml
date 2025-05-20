@@ -50,7 +50,7 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
-                android:contentDescription="Menu Options"
+                android:background="@null"
                 android:paddingHorizontal="10dp"
                 android:src="@drawable/settings_icon" />
 
@@ -273,6 +273,7 @@
                             android:layout_width="250dp"
                             android:layout_height="50dp"
                             android:padding="10dp"
+                            android:textColorHint="#585C5C"
                             android:layout_marginStart="2dp"
                             android:textStyle="bold"
                             android:textColor="@color/black"

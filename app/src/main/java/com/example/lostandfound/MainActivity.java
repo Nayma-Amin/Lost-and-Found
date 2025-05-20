@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showLoginPrompt() {
-        Toast.makeText(this, "Please create an account to enjoy all the features.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Please create an account to enjoy all the features!", Toast.LENGTH_SHORT).show();
     }
 
 }

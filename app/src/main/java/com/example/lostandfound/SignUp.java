@@ -90,6 +90,7 @@ public class SignUp extends AppCompatActivity {
                 return;
             }
 
+
             pbIcon.setVisibility(View.VISIBLE);
 
            fbAuth.createUserWithEmailAndPassword(emailText, passwordText)
