@@ -43,18 +43,16 @@
                 android:gravity="center" />
 
             <ImageButton
-                android:id="@+id/btnMore"
+                android:id="@+id/settings_icon"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginHorizontal="10dp"
                 android:layout_gravity="center"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_more_vert"
-                android:contentDescription="More options"/>
+                android:contentDescription="Menu Options"
+                android:paddingHorizontal="10dp"
+                android:src="@drawable/settings_icon" />
 
         </LinearLayout>
 
-        <!-- Scrollable Content -->
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

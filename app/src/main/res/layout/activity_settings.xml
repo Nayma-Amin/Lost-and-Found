@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/settings"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_color">
+
+
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:orientation="horizontal"
+        android:background="#D9D9D9"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageButton
+            android:id="@+id/menuOption"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:src="@drawable/button"
+            android:background="@null"
+            android:paddingHorizontal="10dp"
+            android:contentDescription="Menu Options"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="SETTINGS"
+            android:fontFamily="@font/vollkorn"
+            android:layout_gravity="center"
+            android:textColor="#0371AC"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/settings_icon"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:contentDescription="Menu Options"
+            android:paddingHorizontal="10dp"
+            android:src="@drawable/settings_icon" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/background_color"
+        android:fontFamily="@font/vollkorn"
+        android:gravity="center"
+        android:padding="12dp"
+        android:layout_marginTop="40dp"
+        android:text="You can hide your location and contact number from here. PLEASE BE SURE OF YOUR CHOICES."
+        android:textColor="@android:color/white"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contact"
+                android:layout_marginStart="25dp"
+                android:fontFamily="@font/vollkorn"
+                android:paddingBottom="5dp"
+                android:textColor="#fff"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:padding="2dp"
+                android:background="@drawable/rounded_ll">
+
+                <EditText
+                    android:id="@+id/contact_privacy"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textColorHint="#5C5B5B"
+                    android:hint="Secure Contact Number"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/vollkorn"
+                    android:layout_gravity="center"/>
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/edit_post"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:layout_marginStart="25dp"
+                android:fontFamily="@font/vollkorn"
+                android:paddingBottom="5dp"
+                android:textColor="#fff"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:padding="2dp"
+                android:background="@drawable/rounded_ll">
+
+                <EditText
+                    android:id="@+id/location_privacy"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textColorHint="#5C5B5B"
+                    android:hint="Secure Location"
+                    android:fontFamily="@font/vollkorn"
+                    android:textColor="@color/black"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"/>
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/edit_post"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Account"
+                android:layout_marginStart="25dp"
+                android:fontFamily="@font/vollkorn"
+                android:paddingBottom="5dp"
+                android:textColor="#fff"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:padding="2dp"
+                android:background="@drawable/rounded_ll">
+
+                <EditText
+                    android:id="@+id/delete_account"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:padding="10dp"
+                    android:textStyle="bold"
+                    android:textColor="#FF0000"
+                    android:text="Delete Account!?"
+                    android:fontFamily="@font/vollkorn"
+                    android:layout_marginStart="2dp"
+                    android:gravity="center_vertical"
+                    android:background="@android:color/transparent"
+                    android:layout_gravity="center"/>
+
+                <ImageButton
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/delete_post"/>
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>

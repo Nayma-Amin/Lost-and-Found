@@ -62,8 +62,21 @@ public class Login extends AppCompatActivity {
         fbAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
-            checkIfInBinAndRestore(user.getUid());
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            db.collection("users").document(user.getUid()).get()
+                    .addOnSuccessListener(documentSnapshot -> {
+                        if (documentSnapshot.exists()) {
+                            startActivity(new Intent(Login.this, MainActivity.class));
+                            finish();
+                        } else {
+                            checkIfInBinAndRestore(user.getUid());
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(Login.this, "Failed to check user data", Toast.LENGTH_SHORT).show();
+                    });
         }
+
 
         btnLogin = findViewById(R.id.btnLogin);
 
@@ -173,5 +186,4 @@ public class Login extends AppCompatActivity {
                     Log.e("Login", "Failed to check 'bin' collection", e);
                 });
     }
-
 }

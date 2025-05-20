@@ -131,20 +131,5 @@
             android:fontFamily="@font/vollkorn"
             android:gravity="start"
             android:layout_marginTop="8dp"/>
-
-        <TextView
-            android:id="@+id/delete_account"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:textSize="16sp"
-            android:background="@drawable/rounded_ll"
-            android:text="Delete Account"
-            android:textColor="#FF0000"
-            android:textStyle="bold"
-            android:backgroundTint="@color/white"
-            android:layout_marginTop="8dp"
-            android:fontFamily="@font/vollkorn"
-            android:gravity="start" />
     </LinearLayout>
 </ScrollView>
