@@ -37,16 +37,7 @@
             android:id="@+id/notification_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="55dp"
-            android:src="@drawable/notification" />
-
-        <ImageView
-            android:id="@+id/settings_icon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center"
-            android:src="@drawable/settings_icon"
+            android:src="@drawable/notification"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true" />
     </RelativeLayout>
@@ -87,8 +78,7 @@
             android:layout_height="48dp"
             android:hint="Search a specific post or item here..."
             android:padding="4dp"
-            android:textSize="14sp"
-            android:textColor="@color/white"
+            android:textSize="12sp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/vollkorn"
             android:layout_marginStart="6dp"
