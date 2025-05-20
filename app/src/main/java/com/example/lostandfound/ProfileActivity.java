@@ -2,12 +2,15 @@ package com.example.lostandfound;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+
+import android.util.Base64;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,6 +41,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.Locale;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth fbAuth;
@@ -46,7 +51,7 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView nameTextView, emailTextView, phoneTextView, locationTextView, noPostText;
     private AppCompatButton editButton;
     private ImageView profileImageView;
-    private ImageButton menuIcon;
+    private ImageButton menuIcon, settingsIcon;
     private LinearLayout requestContainer;
     private Button tabAll, tabLost, tabFound;
     private String selectedTab = "all";
@@ -77,11 +82,17 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(new Intent(ProfileActivity.this, EditProfileActivity.class));
         });
 
+        settingsIcon = findViewById(R.id.settings_icon);
+        settingsIcon.setOnClickListener(v -> {
+            startActivity(new Intent(ProfileActivity.this, SettingsActivity.class));
+        });
+
         menuIcon.setOnClickListener(this::showDropdownMenu);
 
         tabAll.setOnClickListener(v -> switchTab("all"));
         tabLost.setOnClickListener(v -> switchTab("lost"));
         tabFound.setOnClickListener(v -> switchTab("found"));
+
     }
 
     private void showDropdownMenu(View anchor) {
@@ -140,11 +151,6 @@ public class ProfileActivity extends AppCompatActivity {
             logoutAndRemoveToken();
             popupWindow.dismiss();
         });
-
-        popupView.findViewById(R.id.delete_account).setOnClickListener(v -> {
-            showDeleteAccountPopup();
-            popupWindow.dismiss();
-        });
     }
 
     private void logoutAndRemoveToken() {
@@ -161,78 +167,6 @@ public class ProfileActivity extends AppCompatActivity {
                     });
         }
     }
-
-    private void showDeleteAccountPopup() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(60, 40, 60, 10);
-
-        TextView message = new TextView(this);
-        message.setText("Are you sure you want to delete your account? This action can be undone if you log in within 7 days.");
-        message.setTextSize(16);
-        message.setTextColor(Color.BLACK);
-        message.setPadding(0, 0, 0, 30);
-        layout.addView(message);
-
-        LinearLayout buttonLayout = new LinearLayout(this);
-        buttonLayout.setOrientation(LinearLayout.HORIZONTAL);
-        buttonLayout.setGravity(Gravity.END);
-
-        Button confirmButton = new Button(this);
-        confirmButton.setText("Delete");
-        confirmButton.setTextColor(Color.WHITE);
-        confirmButton.setBackgroundColor(Color.RED);
-        confirmButton.setPadding(30, 10, 30, 10);
-
-        Button cancelButton = new Button(this);
-        cancelButton.setText("Cancel");
-        cancelButton.setTextColor(Color.BLACK);
-        cancelButton.setBackgroundColor(Color.LTGRAY);
-        cancelButton.setPadding(30, 10, 30, 10);
-
-        buttonLayout.addView(cancelButton);
-        buttonLayout.addView(confirmButton);
-        layout.addView(buttonLayout);
-
-        builder.setView(layout);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        confirmButton.setOnClickListener(v -> {
-            moveToBinAndDeleteUser();
-            dialog.dismiss();
-        });
-
-        cancelButton.setOnClickListener(v -> dialog.dismiss());
-    }
-
-    private void moveToBinAndDeleteUser() {
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        if (currentUser == null) return;
-
-        String userId = currentUser.getUid();
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection("users").document(userId).get().addOnSuccessListener(snapshot -> {
-            if (snapshot.exists()) {
-                db.collection("bin").document(userId).set(snapshot.getData())
-                        .addOnSuccessListener(unused -> {
-                            db.collection("fcmTokens").document(userId)
-                                    .delete()
-                                    .addOnCompleteListener(task -> {
-                                        db.collection("users").document(userId).delete();
-
-                                        FirebaseAuth.getInstance().signOut();
-                                        startActivity(new Intent(this, Login.class));
-                                        finish();
-                                    });
-                        });
-            }
-        });
-    }
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -317,40 +251,134 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     private void loadUserPosts() {
+        requestContainer.removeAllViews();
         FirebaseUser user = fbAuth.getCurrentUser();
         if (user == null) return;
 
-        requestContainer.removeAllViews();
-        noPostText.setVisibility(View.GONE);
+        String uid = user.getUid();
+        Query query = db.collection("lost_and_found_posts").whereEqualTo("userId", uid);
 
-        Query query = db.collection("posts").whereEqualTo("userId", user.getUid());
-        if (!selectedTab.equals("all")) {
-            query = query.whereEqualTo("type", selectedTab);
+        if (selectedTab.equals("lost")) {
+            query = query.whereEqualTo("type", "Lost");
+        } else if (selectedTab.equals("found")) {
+            query = query.whereEqualTo("type", "Found");
         }
 
-        query.get()
-                .addOnSuccessListener(querySnapshot -> {
-                    if (querySnapshot.isEmpty()) {
-                        noPostText.setVisibility(View.VISIBLE);
-                    } else {
-                        for (QueryDocumentSnapshot doc : querySnapshot) {
-                            String title = doc.getString("title");
-                            if (!TextUtils.isEmpty(title)) {
-                                TextView postView = new TextView(this);
-                                postView.setText("- " + title);
-                                postView.setPadding(12, 8, 12, 8);
-                                postView.setTextSize(16);
-                                postView.setTextColor(getColor(R.color.black));
-                                postView.setGravity(Gravity.START);
-                                requestContainer.addView(postView);
-                            }
-                        }
-                    }
+        query.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                boolean hasPosts = false;
+                for (QueryDocumentSnapshot doc : task.getResult()) {
+                    hasPosts = true;
+                    addPostCard(doc);
+                }
+                noPostText.setVisibility(hasPosts ? View.GONE : View.VISIBLE);
+            }
+        });
+    }
+
+    private void addPostCard(QueryDocumentSnapshot doc) {
+        View card = LayoutInflater.from(this).inflate(R.layout.my_post_item, requestContainer, false);
+
+        TextView itemTitle = card.findViewById(R.id.item_title);
+        TextView itemDescription = card.findViewById(R.id.item_description);
+        TextView itemDate = card.findViewById(R.id.item_date);
+        TextView itemTime = card.findViewById(R.id.item_time);
+        ImageView itemImage = card.findViewById(R.id.item_image);
+        TextView itemLocation = card.findViewById(R.id.item_location);
+
+        String title = doc.getString("category") + " (" + doc.getString("type") + ")";
+        String description = doc.getString("description");
+        String imageBase64 = doc.getString("imageFile");
+        String timeAndDate = doc.getString("timeAndDate");
+        String location = doc.getString("location");
+
+        String date = "", time = "";
+        if (timeAndDate != null && !timeAndDate.isEmpty()) {
+            try {
+                java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                java.util.Date parsedDate = inputFormat.parse(timeAndDate);
+
+                java.text.SimpleDateFormat sdfDate = new java.text.SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                java.text.SimpleDateFormat sdfTime = new java.text.SimpleDateFormat("hh:mm a", Locale.getDefault());
+
+                date = sdfDate.format(parsedDate);
+                time = sdfTime.format(parsedDate);
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        itemTitle.setText(title);
+        itemDescription.setText(description);
+        itemLocation.setText(location);
+        itemDate.setText(date);
+        itemTime.setText(time);
+
+        if (imageBase64 != null && !imageBase64.isEmpty()) {
+            byte[] imageBytes = Base64.decode(imageBase64, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            itemImage.setImageBitmap(bitmap);
+        }
+
+        LinearLayout btnComplete = card.findViewById(R.id.btn_complete);
+        LinearLayout btnDelete = card.findViewById(R.id.btn_delete);
+        LinearLayout btnEdit = card.findViewById(R.id.btn_edit);
+
+        boolean isCompleted = doc.contains("complete") && doc.getBoolean("complete");
+        if (isCompleted) btnComplete.setEnabled(false);
+
+        btnComplete.setOnClickListener(v -> markAsComplete(doc));
+        btnDelete.setOnClickListener(v -> showDeleteConfirmationPopup(doc.getId()));
+        btnEdit.setOnClickListener(v -> {
+            Intent intent = new Intent(this, PostActivity.class);
+            intent.putExtra("isEditMode", true);
+            intent.putExtra("postId", doc.getId());
+            startActivity(intent);
+        });
+
+        requestContainer.addView(card);
+    }
+
+    private void markAsComplete(QueryDocumentSnapshot doc) {
+        String docId = doc.getId();
+        db.collection("lost_and_found_posts").document(docId)
+                .update("complete", true)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Post marked as complete.", Toast.LENGTH_SHORT).show();
+                    loadUserPosts();
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Failed to load posts", Toast.LENGTH_SHORT).show();
-                    noPostText.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, "Failed to complete post.", Toast.LENGTH_SHORT).show();
                 });
+    }
+
+    private void showDeleteConfirmationPopup(String docId) {
+        View popupView = LayoutInflater.from(this).inflate(R.layout.delete_post, null);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(popupView);
+
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+
+        AppCompatButton deleteBtn = popupView.findViewById(R.id.deletePostButton);
+        AppCompatButton cancelBtn = popupView.findViewById(R.id.cancelButton);
+
+        deleteBtn.setOnClickListener(v -> {
+            db.collection("lost_and_found_posts").document(docId)
+                    .delete()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(this, "Post deleted.", Toast.LENGTH_SHORT).show();
+                        dialog.dismiss();
+                        loadUserPosts();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Failed to delete post.", Toast.LENGTH_SHORT).show();
+                    });
+        });
+
+        cancelBtn.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void setTextOrNoData(TextView textView, String value) {

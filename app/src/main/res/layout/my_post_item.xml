@@ -5,24 +5,28 @@
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
+    android:layout_marginTop="10dp"
+    android:background="@color/white"
     app:cardElevation="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical"
         android:padding="8dp">
 
-        <!-- Top Section with Image and Text -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/item_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:background="@drawable/rounded_ll"
                 android:scaleType="centerCrop" />
 
             <LinearLayout
@@ -30,13 +34,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
-                android:paddingStart="8dp">
+                android:paddingStart="8dp"
+                android:background="@color/white">
 
                 <TextView
                     android:id="@+id/item_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Timex watch"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/vollkorn"
                     android:textStyle="bold"
                     android:textSize="16sp" />
@@ -46,17 +51,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/vollkorn"
-                    android:text="Brown leather stripe “Timex” watch lost at Aftabnagar. Contact me if you found it."
+                    android:textColor="@color/black"
                     android:textSize="14sp"
                     android:paddingTop="4dp" />
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Date, Time, Location Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@color/white"
             android:layout_marginTop="8dp"
             android:layout_weight="3"
             android:gravity="center_vertical">
@@ -70,7 +75,7 @@
                 android:id="@+id/item_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10 April"
+                android:textColor="@color/black"
                 android:fontFamily="@font/vollkorn"
                 android:layout_weight="1"
                 android:layout_marginStart="4dp"
@@ -86,7 +91,7 @@
                 android:id="@+id/item_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="07:55 am"
+                android:textColor="@color/black"
                 android:fontFamily="@font/vollkorn"
                 android:layout_weight="1"
                 android:layout_marginStart="4dp"
@@ -102,18 +107,18 @@
                 android:id="@+id/item_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Aftabnagar"
+                android:textColor="@color/black"
                 android:fontFamily="@font/vollkorn"
                 android:layout_weight="1"
                 android:layout_marginStart="4dp"
                 android:textSize="14sp" />
         </LinearLayout>
 
-        <!-- Action Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:background="@color/white"
             android:orientation="horizontal"
             android:gravity="center">
 
@@ -123,6 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:background="@color/white"
                 android:orientation="horizontal"
                 android:padding="8dp">
 
@@ -135,6 +141,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Edit post"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:fontFamily="@font/vollkorn"
                     android:layout_marginStart="4dp"
                     android:textSize="14sp" />
@@ -145,6 +153,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="8dp">
@@ -158,6 +167,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Delete post"
+                    android:textStyle="bold"
                     android:fontFamily="@font/vollkorn"
                     android:textColor="#D32F2F"
                     android:layout_marginStart="4dp"
@@ -165,10 +175,11 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/btn_found"
+                android:id="@+id/btn_complete"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@color/white"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="8dp">
@@ -181,7 +192,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Found"
+                    android:text="Complete"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
                     android:fontFamily="@font/vollkorn"
                     android:layout_marginStart="4dp"
                     android:textSize="14sp" />

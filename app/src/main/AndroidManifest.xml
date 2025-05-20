@@ -46,11 +46,13 @@
             android:name=".SignUp"
             android:exported="false"/>
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomePage"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -82,9 +84,11 @@
 
         <service
             android:name=".FCMNotificationSystem"
-            android:exported="false">
+            android:exported="false"
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.OPEN_LOST_FOUND_POST"/>
             </intent-filter>
         </service>
 

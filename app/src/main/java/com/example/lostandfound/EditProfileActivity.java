@@ -48,7 +48,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private EditText nameEditText, emailEditText, phoneEditText, locationEditText;
     private RadioButton maleButton, femaleButton;
     private Button saveButton, cancelButton, selectPictureBtn;
-    private ImageButton imagePickerButton, menuIcon;
+    private ImageButton imagePickerButton, menuIcon, settingsIcon;
     private ImageView profileImageView;
     private Uri imageUri;
 
@@ -97,6 +97,12 @@ public class EditProfileActivity extends AppCompatActivity {
             updateUserData();
         });
 
+        settingsIcon = findViewById(R.id.settings_icon);
+        settingsIcon.setOnClickListener(v -> {
+            startActivity(new Intent(EditProfileActivity.this, SettingsActivity.class));
+        });
+
+        menuIcon = findViewById(R.id.menu_icon);
         menuIcon.setOnClickListener(this::showDropdownMenu);
     }
 
@@ -272,8 +278,11 @@ public class EditProfileActivity extends AppCompatActivity {
     private String convertImageToBase64(Uri uri) {
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+            int targetWidth = 500;
+            int targetHeight = 500;
+            bitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, stream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, stream);
             byte[] byteArray = stream.toByteArray();
             return Base64.encodeToString(byteArray, Base64.DEFAULT);
         } catch (IOException e) {

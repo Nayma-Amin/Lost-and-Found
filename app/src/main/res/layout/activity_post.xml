@@ -425,6 +425,19 @@
                     android:textColor="#FFFFFF"
                     android:background="@drawable/gradient_button" />
 
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/saveChangesButton"
+                    android:layout_width="300dp"
+                    android:layout_height="50dp"
+                    android:text="Save Changes"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="15dp"
+                    android:fontFamily="@font/vollkorn"
+                    android:textSize="16sp"
+                    android:visibility="gone"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/gradient_button" />
+
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/cancelButton"

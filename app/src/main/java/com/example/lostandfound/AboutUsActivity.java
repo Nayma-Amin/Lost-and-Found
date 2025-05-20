@@ -32,7 +32,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AboutUsActivity extends AppCompatActivity {
 
-    private ImageButton menuIcon;
+    private ImageButton menuIcon, settingsIcon;
     private EditText nameInput, phoneInput, emailInput, subjectInput, messageInput;
 
     @Override
@@ -45,6 +45,11 @@ public class AboutUsActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        settingsIcon = findViewById(R.id.settings_icon);
+        settingsIcon.setOnClickListener(v -> {
+            startActivity(new Intent(AboutUsActivity.this, SettingsActivity.class));
         });
 
         menuIcon = findViewById(R.id.menu_icon);

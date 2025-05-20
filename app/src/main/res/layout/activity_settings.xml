@@ -19,7 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent">
 
         <ImageButton
-            android:id="@+id/menuOption"
+            android:id="@+id/menu_icon"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:layout_gravity="center"
@@ -101,6 +101,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp"
                     android:textStyle="bold"
+                    android:textSize="17sp"
                     android:textColorHint="#5C5B5B"
                     android:hint="Secure Contact Number"
                     android:textColor="@color/black"
@@ -110,6 +111,7 @@
                     android:fontFamily="@font/vollkorn"
                     android:layout_gravity="center"/>
                 <ImageButton
+                    android:id="@+id/drop_button"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -148,6 +150,7 @@
                     android:layout_height="50dp"
                     android:padding="10dp"
                     android:textStyle="bold"
+                    android:textSize="17sp"
                     android:textColorHint="#5C5B5B"
                     android:hint="Secure Location"
                     android:fontFamily="@font/vollkorn"
@@ -158,6 +161,7 @@
                     android:layout_gravity="center"/>
 
                 <ImageButton
+                    android:id="@+id/dropButton"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -191,13 +195,14 @@
                 android:padding="2dp"
                 android:background="@drawable/rounded_ll">
 
-                <EditText
+                <TextView
                     android:id="@+id/delete_account"
                     android:layout_width="250dp"
                     android:layout_height="50dp"
                     android:padding="10dp"
                     android:textStyle="bold"
                     android:textColor="#FF0000"
+                    android:textSize="17sp"
                     android:text="Delete Account!?"
                     android:fontFamily="@font/vollkorn"
                     android:layout_marginStart="2dp"
@@ -206,6 +211,7 @@
                     android:layout_gravity="center"/>
 
                 <ImageButton
+                    android:id="@+id/delete_button"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -214,6 +220,32 @@
 
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/termsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Terms and Conditions"
+        android:fontFamily="@font/vollkorn"
+        android:textColor="#129BBA"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:clickable="true"
+        android:focusable="true"
+        android:textColorLink="#00FFFF"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:id="@+id/termsDescription"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="76dp"
+        android:layout_gravity="center"
+        android:paddingHorizontal="20dp"
+        android:fontFamily="@font/vollkorn"
+        android:text="Lost and Found"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:textSize="20sp" />
 </LinearLayout>

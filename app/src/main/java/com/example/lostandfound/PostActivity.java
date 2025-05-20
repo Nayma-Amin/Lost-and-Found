@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -38,7 +40,6 @@ public class PostActivity extends AppCompatActivity {
     private ImageView previewImage;
     private LinearLayout uploadImageLayout;
     private Button postButton, cancelButton, buttonLost, buttonFound;
-
     private String selectedType = "Lost";
     private String base64Image = "";
 
@@ -59,6 +60,54 @@ public class PostActivity extends AppCompatActivity {
         cancelButton = findViewById(R.id.cancelButton);
         buttonLost = findViewById(R.id.buttonLost);
         buttonFound = findViewById(R.id.buttonFound);
+
+        boolean isEditMode = getIntent().getBooleanExtra("isEditMode", false);
+        String postId = getIntent().getStringExtra("postId");
+
+        if (isEditMode && postId != null) {
+            postButton.setVisibility(View.GONE);
+            Button saveChangesButton = findViewById(R.id.saveChangesButton);
+            saveChangesButton.setVisibility(View.VISIBLE);
+
+            FirebaseFirestore.getInstance().collection("lost_and_found_posts")
+                    .document(postId)
+                    .get()
+                    .addOnSuccessListener(doc -> {
+                        if (doc.exists()) {
+                            insertCategory.setText(doc.getString("category"));
+                            insertDescription.setText(doc.getString("description"));
+                            editTextTime.setText(doc.getString("timeAndDate"));
+                            insertContact.setText(doc.getString("contact"));
+                            insertLocation.setText(doc.getString("location"));
+                            insertGpsLink.setText(doc.getString("gpsLink"));
+
+                            base64Image = doc.getString("imageFile");
+                            if (base64Image != null && !base64Image.isEmpty()) {
+                                byte[] imageBytes = Base64.decode(base64Image, Base64.DEFAULT);
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                                previewImage.setImageBitmap(bitmap);
+                            }
+
+                            selectedType = doc.getString("type");
+                            if ("Lost".equals(selectedType)) {
+                                buttonLost.performClick();
+                            } else if ("Found".equals(selectedType)) {
+                                buttonFound.performClick();
+                            }
+
+                            saveChangesButton.setOnClickListener(v -> updatePost(postId));
+                            cancelButton.setOnClickListener(v -> {
+                                Intent intent = new Intent(PostActivity.this, ProfileActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                finish();
+                            });
+                        }
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(this, "Failed to load post", Toast.LENGTH_SHORT).show();
+                    });
+        }
 
         String categoryTag = getIntent().getStringExtra("categoryTag");
         boolean isEditable = getIntent().getBooleanExtra("isEditable", false);
@@ -100,7 +149,6 @@ public class PostActivity extends AppCompatActivity {
 
         postButton.setOnClickListener(v -> submitPost());
     }
-
     private void pickImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -114,9 +162,12 @@ public class PostActivity extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                int targetWidth = 500;
+                int targetHeight = 500;
+                bitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
                 previewImage.setImageBitmap(bitmap);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
                 base64Image = Base64.encodeToString(baos.toByteArray(), Base64.DEFAULT);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -144,20 +195,29 @@ public class PostActivity extends AppCompatActivity {
         }
 
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String category = insertCategory.getText().toString();
-        String location = insertLocation.getText().toString();
-        String contact = insertContact.getText().toString();
-        long timestamp = System.currentTimeMillis();
+        String category = insertCategory.getText().toString().trim();
+        String location = insertLocation.getText().toString().trim();
+        String contact = insertContact.getText().toString().trim();
+        String gpsLink = insertGpsLink.getText().toString().trim();
+        String timeAndDate = editTextTime.getText().toString().trim();
+        String type = selectedType;
+        Timestamp timestamp = Timestamp.now();
+
+        if (category.isEmpty() || location.isEmpty() || contact.isEmpty() || timeAndDate.isEmpty() || type == null || base64Image == null) {
+            Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Map<String, Object> post = new HashMap<>();
         post.put("userId", userId);
         post.put("category", category);
-        post.put("type", selectedType);
+        post.put("type", type);
         post.put("description", description);
         post.put("imageFile", base64Image);
         post.put("contact", contact);
         post.put("location", location);
-        post.put("gpsLink", insertGpsLink.getText().toString());
+        post.put("gpsLink", gpsLink);
+        post.put("timeAndDate", timeAndDate);
         post.put("timestamp", timestamp);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -169,7 +229,7 @@ public class PostActivity extends AppCompatActivity {
             notif.put("postId", postId);
             notif.put("userId", userId);
             notif.put("location", location);
-            notif.put("type", selectedType);
+            notif.put("type", type);
             notif.put("timestamp", timestamp);
             notif.put("category", category);
 
@@ -185,10 +245,10 @@ public class PostActivity extends AppCompatActivity {
                                 String userLoc = doc.getString("location");
 
                                 if (targetToken != null && !targetToken.isEmpty()) {
-                                    String title = selectedType + " Item Alert";
+                                    String title = type + " Item Alert";
                                     String body = location.equalsIgnoreCase(userLoc)
-                                            ? "New " + selectedType + " post in your area: " + location
-                                            : "New " + selectedType + " post! Check it out: " + location;
+                                            ? "New " + type + " post in your area: " + location
+                                            : "New " + type + " post! Check it out: " + location;
 
                                     sendFCM(targetToken, title, body, postId, accessToken);
                                 }
@@ -211,6 +271,48 @@ public class PostActivity extends AppCompatActivity {
         }).addOnFailureListener(e ->
                 Toast.makeText(this, "Failed to submit post", Toast.LENGTH_SHORT).show()
         );
+    }
+
+    private void updatePost(String postId) {
+        String description = insertDescription.getText().toString().trim();
+        if (description.split("\\s+").length < 10 || description.split("\\s+").length > 20) {
+            Toast.makeText(this, "Description must be 10–20 words", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String category = insertCategory.getText().toString().trim();
+        String location = insertLocation.getText().toString().trim();
+        String contact = insertContact.getText().toString().trim();
+        String gpsLink = insertGpsLink.getText().toString().trim();
+        String timeAndDate = editTextTime.getText().toString().trim();
+        String type = selectedType;
+
+        if (category.isEmpty() || location.isEmpty() || contact.isEmpty() || timeAndDate.isEmpty() || type == null) {
+            Toast.makeText(this, "Please fill out all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("category", category);
+        updates.put("type", type);
+        updates.put("description", description);
+        updates.put("imageFile", base64Image);
+        updates.put("contact", contact);
+        updates.put("location", location);
+        updates.put("gpsLink", gpsLink);
+        updates.put("timeAndDate", timeAndDate);
+
+        FirebaseFirestore.getInstance().collection("lost_and_found_posts")
+                .document(postId)
+                .update(updates)
+                .addOnSuccessListener(unused -> {
+                    Toast.makeText(this, "Post updated", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(PostActivity.this, ProfileActivity.class));
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to update post", Toast.LENGTH_SHORT).show();
+                });
     }
 
     private void sendFCM(String token, String title, String message, String postId, String accessToken) {

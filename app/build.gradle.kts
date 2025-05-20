@@ -63,4 +63,7 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore:24.10.2")
     implementation("com.google.firebase:firebase-messaging:23.4.1")
     implementation("com.google.auth:google-auth-library-oauth2-http:1.19.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.fragment:fragment:1.5.7")
+    implementation("androidx.core:core-ktx:1.13.0")
 }

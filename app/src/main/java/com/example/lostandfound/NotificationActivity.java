@@ -34,7 +34,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     private LinearLayout notificationContainer;
     private TextView noNotificationText;
-    private ImageButton menuIcon;
+    private ImageButton menuIcon, settingsIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +51,13 @@ public class NotificationActivity extends AppCompatActivity {
         notificationContainer = findViewById(R.id.notification_container);
         noNotificationText = findViewById(R.id.no_notification_text);
         menuIcon = findViewById(R.id.menu_icon);
+        settingsIcon = findViewById(R.id.settings_icon);
+        settingsIcon.setOnClickListener(v -> {
+            startActivity(new Intent(NotificationActivity.this, SettingsActivity.class));
+        });
 
         menuIcon.setOnClickListener(this::showDropdownMenu);
 
-        // Initially show empty state
         updateNotificationVisibility();
 
     }
