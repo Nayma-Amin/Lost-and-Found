@@ -2,9 +2,13 @@ package com.example.lostandfound;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
@@ -25,10 +30,13 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -50,16 +58,136 @@ public class NotificationActivity extends AppCompatActivity {
 
         notificationContainer = findViewById(R.id.notification_container);
         noNotificationText = findViewById(R.id.no_notification_text);
+
         menuIcon = findViewById(R.id.menu_icon);
         settingsIcon = findViewById(R.id.settings_icon);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            loadNotifications(user.getUid());
+        }
+
         settingsIcon.setOnClickListener(v -> {
             startActivity(new Intent(NotificationActivity.this, SettingsActivity.class));
         });
 
         menuIcon.setOnClickListener(this::showDropdownMenu);
 
-        updateNotificationVisibility();
+    }
 
+    private void loadNotifications(String userId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        db.collection("notifications")
+                .orderBy("timestamp", Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(snapshot -> {
+                    boolean hasNotification = false;
+
+                    for (QueryDocumentSnapshot doc : snapshot) {
+                        String notificationUserId = doc.getString("userId");
+
+                        if (notificationUserId != null && notificationUserId.equals(userId)) {
+                            continue;
+                        }
+
+                        hasNotification = true;
+
+                        String type = doc.getString("type");
+                        String category = doc.getString("category");
+                        String postId = doc.getString("postId");
+                        Timestamp timestamp = doc.getTimestamp("timestamp");
+
+                        db.collection("lost_and_found_posts")
+                                .document(postId)
+                                .get()
+                                .addOnSuccessListener(postDoc -> {
+                                    String base64Image = postDoc.getString("imageFile");
+
+                                    View notifView = LayoutInflater.from(this).inflate(R.layout.notifications, notificationContainer, false);
+                                    ImageView itemImage = notifView.findViewById(R.id.item_image);
+                                    TextView titleText = notifView.findViewById(R.id.notification_text);
+                                    TextView timeText = notifView.findViewById(R.id.time_text);
+
+                                    ImageView btnOption = notifView.findViewById(R.id.btnOption);
+
+                                    btnOption.setOnClickListener(view -> {
+                                        View popupView = LayoutInflater.from(NotificationActivity.this)
+                                                .inflate(R.layout.notification_menu, null);
+
+                                        PopupWindow popupWindow = new PopupWindow(popupView,
+                                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                ViewGroup.LayoutParams.WRAP_CONTENT,
+                                                true);
+
+                                        popupWindow.setElevation(10);
+
+                                        popupWindow.showAsDropDown(btnOption, -150, 0);
+
+                                        TextView optionMarkRead = popupView.findViewById(R.id.option_hide);
+                                        TextView optionDelete = popupView.findViewById(R.id.option_show);
+
+                                        optionMarkRead.setOnClickListener(v -> {
+                                            popupWindow.dismiss();
+                                            doc.getReference().update("read", true)
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        notifView.setBackgroundColor(Color.WHITE);
+                                                    });
+                                        });
+
+                                        optionDelete.setOnClickListener(v -> {
+                                            popupWindow.dismiss();
+                                            doc.getReference().delete()
+                                                    .addOnSuccessListener(aVoid -> {
+                                                        notificationContainer.removeView(notifView);
+                                                    });
+                                        });
+                                    });
+
+                                    String title = "New " + type + " item: " + category + ". Check out!";
+                                    titleText.setText(title);
+
+                                    if (timestamp != null) {
+                                        timeText.setText(getTimeAgo(timestamp.toDate().getTime()));
+                                    }
+
+                                    if (base64Image != null && !base64Image.isEmpty()) {
+                                        byte[] decoded = Base64.decode(base64Image, Base64.DEFAULT);
+                                        Bitmap bitmap = BitmapFactory.decodeByteArray(decoded, 0, decoded.length);
+                                        itemImage.setImageBitmap(bitmap);
+                                    }
+
+                                    notifView.setOnClickListener(v -> {
+                                        Intent intent = new Intent(NotificationActivity.this, MainActivity.class);
+                                        intent.putExtra("postId", postId);
+                                        startActivity(intent);
+                                    });
+
+                                    notificationContainer.addView(notifView);
+                                });
+                    }
+
+                    if (!hasNotification) {
+                        noNotificationText.setVisibility(View.VISIBLE);
+                    } else {
+                        noNotificationText.setVisibility(View.GONE);
+                    }
+                });
+    }
+
+    private String getTimeAgo(long time) {
+        long now = System.currentTimeMillis();
+        long diff = now - time;
+
+        long seconds = diff / 1000;
+        long minutes = seconds / 60;
+        long hours = minutes / 60;
+        long days = hours / 24;
+
+        if (seconds < 60) return "Just now";
+        else if (minutes < 60) return minutes + " minutes ago";
+        else if (hours < 24) return hours + " hours ago";
+        else return days + " days ago";
     }
 
     private void showDropdownMenu(View anchor) {
@@ -134,52 +262,4 @@ public class NotificationActivity extends AppCompatActivity {
                     });
         }
     }
-    private void updateNotificationVisibility() {
-        if (notificationContainer.getChildCount() == 0) {
-            noNotificationText.setVisibility(View.VISIBLE);
-        } else {
-            noNotificationText.setVisibility(View.GONE);
-        }
-    }
-
-    private void addNotification() {
-        LayoutInflater inflater = LayoutInflater.from(this);
-        View notificationView = inflater.inflate(R.layout.notifications, notificationContainer, false);
-
-        ImageButton btnOption = notificationView.findViewById(R.id.btnOption);
-        btnOption.setOnClickListener(view -> {
-            PopupMenu popup = new PopupMenu(NotificationActivity.this, view);
-            MenuInflater inflater1 = popup.getMenuInflater();
-            popup.inflate(R.menu.notification_options_menu);
-
-            popup.setOnMenuItemClickListener(item -> {
-                int id = item.getItemId();
-                if (id == R.id.action_mark_read) {
-                    Toast.makeText(this, "Marked as read", Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if (id == R.id.action_delete) {
-                    Toast.makeText(this, "Notification deleted", Toast.LENGTH_SHORT).show();
-                    notificationContainer.removeView(notificationView);
-                    updateNotificationVisibility();
-                    return true;
-                }
-                return false;
-            });
-
-            try {
-                java.lang.reflect.Field mFieldPopup = popup.getClass().getDeclaredField("mPopup");
-                mFieldPopup.setAccessible(true);
-                Object mPopup = mFieldPopup.get(popup);
-                mPopup.getClass().getDeclaredMethod("setForceShowIcon", boolean.class).invoke(mPopup, true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            popup.show();
-        });
-
-        notificationContainer.addView(notificationView);
-        updateNotificationVisibility();
-    }
-
 }

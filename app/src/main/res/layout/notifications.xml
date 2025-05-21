@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="8dp"
-    android:layout_margin="15dp"
+    android:layout_margin="10dp"
     android:background="@drawable/rounded_ll">
 
     <ImageView
@@ -21,8 +21,7 @@
         android:id="@+id/notification_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="5+ new found items post in your area. Check out?"
-        android:textStyle="bold"
+       android:textColor="@color/black"
         android:padding="5dp"
         android:fontFamily="@font/vollkorn"
         app:layout_constraintTop_toTopOf="@id/item_image"
@@ -33,11 +32,9 @@
         android:id="@+id/time_text"
         android:layout_width="0dp"
         android:layout_height="29dp"
-        android:text="5 minutes ago"
         android:textStyle="bold"
         android:textColor="#2F88FF"
         android:padding="5dp"
-        android:fontFamily="@font/vollkorn"
         app:layout_constraintTop_toBottomOf="@id/notification_text"
         app:layout_constraintStart_toEndOf="@id/item_image"
         app:layout_constraintEnd_toEndOf="@id/notification_text"

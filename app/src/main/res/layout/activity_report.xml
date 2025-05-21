@@ -95,6 +95,7 @@
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/pieChart"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_margin="16dp" />
@@ -122,6 +123,7 @@
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barChart"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:layout_margin="16dp" />

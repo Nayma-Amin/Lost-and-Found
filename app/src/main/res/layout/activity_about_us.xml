@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Header -->
         <LinearLayout
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
@@ -75,7 +74,6 @@
                     android:justificationMode="inter_word"
                     android:lineSpacingExtra="4dp" />
 
-                <!-- Admin Panel -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -91,7 +89,6 @@
                     android:orientation="horizontal"
                     android:layout_marginVertical="5dp">
 
-                    <!-- Admin 1 -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -112,7 +109,6 @@
                             android:fontFamily="@font/vollkorn" />
                     </LinearLayout>
 
-                    <!-- Admin 2 -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -133,7 +129,6 @@
                             android:fontFamily="@font/vollkorn" />
                     </LinearLayout>
 
-                    <!-- Admin 3 -->
                     <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -155,7 +150,6 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Contact Form -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

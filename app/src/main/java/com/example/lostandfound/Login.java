@@ -1,10 +1,16 @@
 package com.example.lostandfound;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.os.Bundle;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,7 +21,9 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -46,7 +54,7 @@ public class Login extends AppCompatActivity {
     private Button btnLogin;
     private ProgressBar pbIcon;
 
-    private TextView tvNewHere;
+    private TextView tvNewHere, resetBtn;
 
     private FirebaseAuth fbAuth;
 
@@ -58,6 +66,7 @@ public class Login extends AppCompatActivity {
 
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
+        resetBtn = findViewById(R.id.tvForgetPassword);
 
         fbAuth = FirebaseAuth.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -76,6 +85,94 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Failed to check user data", Toast.LENGTH_SHORT).show();
                     });
         }
+
+        resetBtn.setOnClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+
+            Typeface aclonica = ResourcesCompat.getFont(Login.this, R.font.vollkorn);
+
+            TextView title = new TextView(Login.this);
+            title.setText("Reset Password");
+            title.setTextColor(Color.parseColor("#05161A"));
+            title.setTypeface(aclonica, Typeface.BOLD);
+            title.setPadding(50, 40, 50, 40);
+            title.setTextSize(20);
+            builder.setCustomTitle(title);
+
+            final EditText emailEditText = new EditText(Login.this);
+            emailEditText.setHint("Enter your registered email");
+            emailEditText.setTextSize(15);
+            emailEditText.setHintTextColor(Color.parseColor("#666666"));
+            emailEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            emailEditText.setPadding(50, 40, 50, 40);
+            emailEditText.setTypeface(aclonica);
+
+            GradientDrawable underline = new GradientDrawable();
+            underline.setShape(GradientDrawable.RECTANGLE);
+            underline.setStroke(1, Color.parseColor("#666666"));
+            underline.setColor(Color.TRANSPARENT);
+
+            emailEditText.setBackground(underline);
+            emailEditText.setTextColor(Color.BLACK);
+
+            builder.setView(emailEditText);
+            builder.setPositiveButton("Send Link", null);
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+            AlertDialog dialog = builder.create();
+
+            dialog.setOnShowListener(dialogInterface -> {
+                Button sendButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                Button cancelButton = dialog.getButton(AlertDialog.BUTTON_NEGATIVE);
+
+                sendButton.setTextColor(Color.parseColor("#05161A"));
+                cancelButton.setTextColor(Color.parseColor("#05161A"));
+
+                sendButton.setTypeface(aclonica, Typeface.BOLD);
+                cancelButton.setTypeface(aclonica, Typeface.BOLD);
+
+                sendButton.setOnClickListener(view -> {
+                    String email = emailEditText.getText().toString().trim();
+
+                    if (TextUtils.isEmpty(email)) {
+                        emailEditText.setError("Please enter your email");
+                        return;
+                    }
+
+                    if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                        emailEditText.setError("Invalid email address");
+                        return;
+                    }
+
+                    AlertDialog loadingDialog = new AlertDialog.Builder(Login.this)
+                            .setMessage("Sending reset link...")
+                            .setCancelable(false)
+                            .create();
+                    loadingDialog.show();
+
+                    fbAuth.sendPasswordResetEmail(email)
+                            .addOnSuccessListener(aVoid -> {
+                                loadingDialog.dismiss();
+                                dialog.dismiss();
+                                Toast.makeText(Login.this, "Reset link sent to: " + email, Toast.LENGTH_LONG).show();
+                            })
+                            .addOnFailureListener(e -> {
+                                loadingDialog.dismiss();
+                                if (e instanceof com.google.firebase.auth.FirebaseAuthInvalidUserException) {
+                                    emailEditText.setError("Email not registered");
+                                } else {
+                                    Toast.makeText(Login.this, "Reset failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                });
+            });
+
+            dialog.show();
+
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+            }
+        });
 
 
         btnLogin = findViewById(R.id.btnLogin);

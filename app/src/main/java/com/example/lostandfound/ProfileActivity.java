@@ -215,8 +215,23 @@ public class ProfileActivity extends AppCompatActivity {
                         if (documentSnapshot.exists()) {
                             setTextOrNoData(nameTextView, documentSnapshot.getString("username"));
                             setTextOrNoData(emailTextView, documentSnapshot.getString("email"));
-                            setTextOrNoData(phoneTextView, documentSnapshot.getString("phone"));
-                            setTextOrNoData(locationTextView, documentSnapshot.getString("location"));
+                            String secureContact = documentSnapshot.getString("SecureContact");
+                            String secureLocation = documentSnapshot.getString("SecureLocation");
+
+                            String phone = documentSnapshot.getString("phone");
+                            String location = documentSnapshot.getString("location");
+
+                            if ("Hide".equalsIgnoreCase(secureContact)) {
+                                phoneTextView.setText("Secured");
+                            } else {
+                                setTextOrNoData(phoneTextView, phone);
+                            }
+
+                            if ("Hide".equalsIgnoreCase(secureLocation)) {
+                                locationTextView.setText("Secured");
+                            } else {
+                                setTextOrNoData(locationTextView, location);
+                            }
 
                             String imageData = documentSnapshot.getString("profileImage");
                             if (!TextUtils.isEmpty(imageData)) {

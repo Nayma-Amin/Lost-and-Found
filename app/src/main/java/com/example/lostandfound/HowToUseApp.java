@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -40,6 +45,38 @@ public class HowToUseApp extends AppCompatActivity {
 
         menuIcon = findViewById(R.id.menu_icon);
         menuIcon.setOnClickListener(this::showDropdownMenu);
+
+        TextView signUpText = findViewById(R.id.signUpText);
+        TextView loginText = findViewById(R.id.loginText);
+
+        SpannableString signUpSpan = new SpannableString("New here? Please Sign Up to find lost belongings");
+        ClickableSpan signUpClickable = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HowToUseApp.this, SignUp.class));
+            }
+        };
+        int signUpStart = signUpSpan.toString().indexOf("Sign Up");
+        int signUpEnd = signUpStart + "Sign Up".length();
+        signUpSpan.setSpan(signUpClickable, signUpStart, signUpEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        signUpText.setText(signUpSpan);
+        signUpText.setMovementMethod(LinkMovementMethod.getInstance());
+        signUpText.setHighlightColor(Color.TRANSPARENT);
+
+        SpannableString loginSpan = new SpannableString("Already have an account? Please Login");
+        ClickableSpan loginClickable = new ClickableSpan() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HowToUseApp.this, Login.class));
+            }
+        };
+        int loginStart = loginSpan.toString().indexOf("Login");
+        int loginEnd = loginStart + "Login".length();
+        loginSpan.setSpan(loginClickable, loginStart, loginEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        loginText.setText(loginSpan);
+        loginText.setMovementMethod(LinkMovementMethod.getInstance());
+        loginText.setHighlightColor(Color.TRANSPARENT);
+
     }
     private void showDropdownMenu(View anchor) {
         View popupView = LayoutInflater.from(this).inflate(R.layout.dropdown_menu, null);

@@ -86,6 +86,7 @@
             android:layout_height="48dp"
             android:hint="Search a specific post or item here..."
             android:padding="4dp"
+            android:textColor="@color/white"
             android:textSize="12sp"
             android:background="@android:color/transparent"
             android:fontFamily="@font/vollkorn"
@@ -131,38 +132,6 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_marginEnd="2dp"
-            android:orientation="horizontal"
-            android:background="@drawable/corner_style">
-
-            <EditText
-                android:id="@+id/category_field"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="48dp"
-                android:hint="Select Category..."
-                android:background="@android:color/transparent"
-                android:padding="4dp"
-                android:textSize="12sp"
-                android:fontFamily="@font/vollkorn"
-                android:layout_marginStart="6dp"
-                android:textColorHint="@color/white" />
-
-            <ImageButton
-                android:id="@+id/drop_button"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="14dp"
-                android:src="@drawable/drop"
-                android:background="@null" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
@@ -178,6 +147,22 @@
                 android:background="@drawable/corner_style"/>
 
         </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/all_fil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="All"
+                android:textSize="12sp"
+                android:textColor="@color/white"
+                android:layout_marginEnd="2dp"
+                android:fontFamily="@font/vollkorn"
+                android:background="@drawable/corner_style"/>
+            </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -191,7 +176,7 @@
                     android:textSize="12sp"
                     android:background="@drawable/corner_style"
                     android:fontFamily="@font/vollkorn"
-                    android:text="Not Found" />
+                    android:text="LOST" />
 
             </LinearLayout>
         </LinearLayout>

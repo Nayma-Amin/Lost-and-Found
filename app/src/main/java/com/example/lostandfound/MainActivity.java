@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -31,6 +32,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView loggedInUser;
     private FirebaseUser currentUser;
     private boolean isGuest;
+
+    private EditText searchField;
+    private ImageView searchButton;
+    private AppCompatButton foundFil, lostFil, allFil;
+    private List<QueryDocumentSnapshot> allPosts = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         reportLayout = findViewById(R.id.report);
         profileLayout = findViewById(R.id.profile);
         loggedInUser = findViewById(R.id.loggedInUser);
+        allFil = findViewById(R.id.all_fil);
+
 
         TextView loggedInUser = findViewById(R.id.loggedInUser);
         TextView guest = findViewById(R.id.guest);
@@ -134,12 +145,169 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loadLostFoundPosts();
+        searchField = findViewById(R.id.search_field);
+        searchButton = findViewById(R.id.search_button);
+        foundFil = findViewById(R.id.found_fil);
+        lostFil = findViewById(R.id.not_found_fil);
+
+        searchButton.setOnClickListener(v -> {
+            String query = searchField.getText().toString().trim().toLowerCase(Locale.ROOT);
+            if (!query.isEmpty()) {
+                searchLostFoundPosts(query);
+            } else {
+                loadLostFoundPosts();
+            }
+        });
+
+
+        foundFil.setOnClickListener(v -> {
+            updateFilterButtonStyles(foundFil);
+            showFilteredPosts(null, "Found");
+        });
+
+        lostFil.setOnClickListener(v -> {
+            updateFilterButtonStyles(lostFil);
+            showFilteredPosts(null, "Lost");
+        });
+
+        allFil.setOnClickListener(v -> {
+            updateFilterButtonStyles(allFil);
+            loadLostFoundPosts();
+        });
+
+        String postId = getIntent().getStringExtra("postId");
+        if (postId != null) {
+            openSpecificPost(postId);
+        } else {
+            loadLostFoundPosts();
+        }
+
     }
+
+    private void updateFilterButtonStyles(AppCompatButton selectedButton) {
+        foundFil.setBackgroundResource(R.drawable.corner_style);
+        lostFil.setBackgroundResource(R.drawable.corner_style);
+        allFil.setBackgroundResource(R.drawable.corner_style);
+
+        foundFil.setTextColor(Color.WHITE);
+        lostFil.setTextColor(Color.WHITE);
+        allFil.setTextColor(Color.WHITE);
+
+        selectedButton.setBackgroundResource(R.drawable.corner_style_selected);
+        selectedButton.setTextColor(Color.WHITE);
+    }
+
+
 
     private void loadLostFoundPosts() {
         LinearLayout postContainer = findViewById(R.id.post_container);
-        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null ?
+                FirebaseAuth.getInstance().getCurrentUser().getUid() : "";
+
+        FirebaseFirestore.getInstance()
+                .collection("lost_and_found_posts")
+                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    postContainer.removeAllViews();
+                    for (QueryDocumentSnapshot doc : querySnapshot) {
+                        String postUserId = doc.getString("userId");
+                        if (!currentUserId.isEmpty() && postUserId != null && postUserId.equals(currentUserId)) {
+                            continue;
+                        }
+
+                        String title = doc.getString("category") + " (" + doc.getString("type") + ")";
+                        String description = doc.getString("description");
+                        String imageBase64 = doc.getString("imageFile");
+                        String contact = doc.getString("contact");
+                        String location = doc.getString("location");
+                        String gpsLink = doc.getString("gpsLink");
+
+                        String date = "", time = "";
+                        String timeAndDate = doc.getString("timeAndDate");
+                        if (timeAndDate != null && !timeAndDate.isEmpty()) {
+                            try {
+                                java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                                java.util.Date parsedDate = inputFormat.parse(timeAndDate);
+                                java.text.SimpleDateFormat sdfDate = new java.text.SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                                java.text.SimpleDateFormat sdfTime = new java.text.SimpleDateFormat("hh:mm a", Locale.getDefault());
+                                date = sdfDate.format(parsedDate);
+                                time = sdfTime.format(parsedDate);
+                            } catch (java.text.ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        View postView = LayoutInflater.from(this).inflate(R.layout.post_item, postContainer, false);
+                        ImageView itemImage = postView.findViewById(R.id.item_image);
+                        TextView itemTitle = postView.findViewById(R.id.item_title);
+                        TextView itemDescription = postView.findViewById(R.id.item_description);
+                        TextView itemDate = postView.findViewById(R.id.item_date);
+                        TextView itemTime = postView.findViewById(R.id.item_time);
+                        TextView itemLocation = postView.findViewById(R.id.item_location);
+
+                        itemTitle.setText(title);
+                        itemDescription.setText(description);
+                        itemDate.setText(date);
+                        itemTime.setText(time);
+                        itemLocation.setText(location);
+
+                        if (imageBase64 != null && !imageBase64.isEmpty()) {
+                            byte[] imageBytes = Base64.decode(imageBase64, Base64.DEFAULT);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                            itemImage.setImageBitmap(bitmap);
+                        }
+
+                        LinearLayout btnContact = postView.findViewById(R.id.btn_edit);
+                        LinearLayout btnLocation = postView.findViewById(R.id.btn_delete);
+                        LinearLayout btnShare = postView.findViewById(R.id.btn_found);
+
+                        btnContact.setOnClickListener(v -> {
+                            if (isGuest) {
+                                showLoginPrompt();
+                            } else {
+                                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                                callIntent.setData(Uri.parse("tel:" + contact));
+                                startActivity(callIntent);
+                            }
+                        });
+
+                        btnLocation.setOnClickListener(v -> {
+                            if (isGuest) {
+                                showLoginPrompt();
+                            } else if (gpsLink != null && !gpsLink.isEmpty()) {
+                                Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gpsLink));
+                                startActivity(mapIntent);
+                            } else {
+                                Toast.makeText(this, "No GPS link provided", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        btnShare.setOnClickListener(v -> {
+                            if (isGuest) {
+                                showLoginPrompt();
+                            } else {
+                                String shareText = "Lost & Found: " + title + "\n" + description + "\nLocation: " + location;
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                                startActivity(Intent.createChooser(shareIntent, "Share via"));
+                            }
+                        });
+
+                        postContainer.addView(postView);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to load posts", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void searchLostFoundPosts(String query) {
+        LinearLayout postContainer = findViewById(R.id.post_container);
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser() != null
+                ? FirebaseAuth.getInstance().getCurrentUser().getUid()
+                : "";
 
         FirebaseFirestore.getInstance()
                 .collection("lost_and_found_posts")
@@ -153,14 +321,123 @@ public class MainActivity extends AppCompatActivity {
                             continue;
                         }
 
+                        String category = doc.getString("category");
+                        String type = doc.getString("type");
+                        String description = doc.getString("description");
+                        String location = doc.getString("location");
+
+                        if ((category != null && category.toLowerCase().contains(query)) ||
+                                (type != null && type.toLowerCase().contains(query)) ||
+                                (description != null && description.toLowerCase().contains(query)) ||
+                                (location != null && location.toLowerCase().contains(query))) {
+
+                            displaySinglePost(doc, postContainer);
+                        }
+                    }
+
+                    if (postContainer.getChildCount() == 0) {
+                        Toast.makeText(this, "No results found.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void displaySinglePost(QueryDocumentSnapshot doc, LinearLayout postContainer) {
+        String title = doc.getString("category") + " (" + doc.getString("type") + ")";
+        String description = doc.getString("description");
+        String imageBase64 = doc.getString("imageFile");
+        String contact = doc.getString("contact");
+        String location = doc.getString("location");
+        String gpsLink = doc.getString("gpsLink");
+        String date = "", time = "";
+
+        String timeAndDate = doc.getString("timeAndDate");
+        if (timeAndDate != null && !timeAndDate.isEmpty()) {
+            try {
+                java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                java.util.Date parsedDate = inputFormat.parse(timeAndDate);
+                java.text.SimpleDateFormat sdfDate = new java.text.SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                java.text.SimpleDateFormat sdfTime = new java.text.SimpleDateFormat("hh:mm a", Locale.getDefault());
+                date = sdfDate.format(parsedDate);
+                time = sdfTime.format(parsedDate);
+            } catch (java.text.ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
+        View postView = LayoutInflater.from(this).inflate(R.layout.post_item, postContainer, false);
+
+        ImageView itemImage = postView.findViewById(R.id.item_image);
+        TextView itemTitle = postView.findViewById(R.id.item_title);
+        TextView itemDescription = postView.findViewById(R.id.item_description);
+        TextView itemDate = postView.findViewById(R.id.item_date);
+        TextView itemTime = postView.findViewById(R.id.item_time);
+        TextView itemLocation = postView.findViewById(R.id.item_location);
+
+        itemTitle.setText(title);
+        itemDescription.setText(description);
+        itemDate.setText(date);
+        itemTime.setText(time);
+        itemLocation.setText(location);
+
+        if (imageBase64 != null && !imageBase64.isEmpty()) {
+            byte[] imageBytes = Base64.decode(imageBase64, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+            itemImage.setImageBitmap(bitmap);
+        }
+
+        LinearLayout btnContact = postView.findViewById(R.id.btn_edit);
+        LinearLayout btnLocation = postView.findViewById(R.id.btn_delete);
+        LinearLayout btnShare = postView.findViewById(R.id.btn_found);
+
+        btnContact.setOnClickListener(v -> {
+            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+            callIntent.setData(Uri.parse("tel:" + contact));
+            startActivity(callIntent);
+        });
+
+        btnLocation.setOnClickListener(v -> {
+            if (gpsLink != null && !gpsLink.isEmpty()) {
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gpsLink));
+                startActivity(mapIntent);
+            } else {
+                Toast.makeText(this, "No GPS link provided", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnShare.setOnClickListener(v -> {
+            String shareText = "Lost & Found: " + title + "\n" + description + "\nLocation: " + location + "\nContact: " + contact;
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+            startActivity(Intent.createChooser(shareIntent, "Share via"));
+        });
+
+        postContainer.addView(postView);
+    }
+
+    private void showFilteredPosts(String query, String type) {
+        LinearLayout postContainer = findViewById(R.id.post_container);
+        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        FirebaseFirestore.getInstance()
+                .collection("lost_and_found_posts")
+                .whereEqualTo("type", type)
+                .orderBy("timestamp", com.google.firebase.firestore.Query.Direction.DESCENDING)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    postContainer.removeAllViews();
+
+                    for (QueryDocumentSnapshot doc : querySnapshot) {
+                        String postUserId = doc.getString("userId");
+                        if (postUserId != null && postUserId.equals(currentUserId)) continue;
+
                         String title = doc.getString("category") + " (" + doc.getString("type") + ")";
                         String description = doc.getString("description");
                         String imageBase64 = doc.getString("imageFile");
                         String contact = doc.getString("contact");
                         String location = doc.getString("location");
                         String gpsLink = doc.getString("gpsLink");
-                        String date = "";
-                        String time = "";
+                        String date = "", time = "";
 
                         String timeAndDate = doc.getString("timeAndDate");
                         if (timeAndDate != null && !timeAndDate.isEmpty()) {
@@ -228,12 +505,110 @@ public class MainActivity extends AppCompatActivity {
 
                         postContainer.addView(postView);
                     }
+
+                    if (querySnapshot.isEmpty()) {
+                        Toast.makeText(this, "No " + type + " items found.", Toast.LENGTH_SHORT).show();
+                    }
                 })
                 .addOnFailureListener(e -> {
-                    Toast.makeText(this, "Failed to load posts: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Error loading filtered posts", Toast.LENGTH_SHORT).show();
                 });
     }
+    private void openSpecificPost(String postId) {
+        FirebaseFirestore.getInstance().collection("lost_and_found_posts")
+                .document(postId)
+                .get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String currentUserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        String postUserId = documentSnapshot.getString("userId");
+                        if (postUserId != null && postUserId.equals(currentUserId)) {
+                            return;
+                        }
 
+                        String title = documentSnapshot.getString("category") + " (" + documentSnapshot.getString("type") + ")";
+                        String description = documentSnapshot.getString("description");
+                        String imageBase64 = documentSnapshot.getString("imageFile");
+                        String contact = documentSnapshot.getString("contact");
+                        String location = documentSnapshot.getString("location");
+                        String gpsLink = documentSnapshot.getString("gpsLink");
+
+                        String date = "";
+                        String time = "";
+
+                        String timeAndDate = documentSnapshot.getString("timeAndDate");
+                        if (timeAndDate != null && !timeAndDate.isEmpty()) {
+                            try {
+                                java.text.SimpleDateFormat inputFormat = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+                                java.util.Date parsedDate = inputFormat.parse(timeAndDate);
+
+                                java.text.SimpleDateFormat sdfDate = new java.text.SimpleDateFormat("dd MMM yyyy", Locale.getDefault());
+                                java.text.SimpleDateFormat sdfTime = new java.text.SimpleDateFormat("hh:mm a", Locale.getDefault());
+
+                                date = sdfDate.format(parsedDate);
+                                time = sdfTime.format(parsedDate);
+                            } catch (java.text.ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        View postView = LayoutInflater.from(this).inflate(R.layout.post_item, null, false);
+
+                        ImageView itemImage = postView.findViewById(R.id.item_image);
+                        TextView itemTitle = postView.findViewById(R.id.item_title);
+                        TextView itemDescription = postView.findViewById(R.id.item_description);
+                        TextView itemDate = postView.findViewById(R.id.item_date);
+                        TextView itemTime = postView.findViewById(R.id.item_time);
+                        TextView itemLocation = postView.findViewById(R.id.item_location);
+
+                        itemTitle.setText(title);
+                        itemDescription.setText(description);
+                        itemDate.setText(date);
+                        itemTime.setText(time);
+                        itemLocation.setText(location);
+
+                        if (imageBase64 != null && !imageBase64.isEmpty()) {
+                            byte[] imageBytes = Base64.decode(imageBase64, Base64.DEFAULT);
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
+                            itemImage.setImageBitmap(bitmap);
+                        }
+
+                        LinearLayout btnContact = postView.findViewById(R.id.btn_edit);
+                        LinearLayout btnLocation = postView.findViewById(R.id.btn_delete);
+                        LinearLayout btnShare = postView.findViewById(R.id.btn_found);
+
+                        btnContact.setOnClickListener(v -> {
+                            Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                            callIntent.setData(Uri.parse("tel:" + contact));
+                            startActivity(callIntent);
+                        });
+
+                        btnLocation.setOnClickListener(v -> {
+                            if (gpsLink != null && !gpsLink.isEmpty()) {
+                                Intent mapIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(gpsLink));
+                                startActivity(mapIntent);
+                            } else {
+                                Toast.makeText(this, "No GPS link provided", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+                        btnShare.setOnClickListener(v -> {
+                            String shareText = "Lost & Found: " + title + "\n" + description + "\nLocation: " + location + "\nContact: " + contact;
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, shareText);
+                            startActivity(Intent.createChooser(shareIntent, "Share via"));
+                        });
+
+                        LinearLayout postContainer = findViewById(R.id.post_container);
+                        postContainer.removeAllViews();
+                        postContainer.addView(postView);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Failed to load post: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
+    }
 
     private void showDropdownMenu() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
