@@ -161,6 +161,7 @@ public class AboutUsActivity extends AppCompatActivity {
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:asifasif6005@gmail.com"));
+        intent.setData(Uri.parse("mailto:naymaaminnishy06@gmail.com"));
         intent.putExtra(Intent.EXTRA_SUBJECT, subject);
         intent.putExtra(Intent.EXTRA_TEXT, fullMessage);
 
